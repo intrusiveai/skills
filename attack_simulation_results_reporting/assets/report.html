@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>{{REPORT_TITLE}}</title>
+  <link rel="stylesheet" href="report.css">
+  <script src="report.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to report</a>
+  <header class="masthead">
+    <a class="wordmark" href="#overview" aria-label="INTRUSIVE.AI report overview">INTRUSIVE<span>.</span>AI</a>
+    <span>Security review / {{CAMPAIGN_LABEL}}</span>
+  </header>
+  <div class="layout">
+    <nav class="contents" aria-label="Report contents">
+      <p class="eyebrow">Campaign review</p>
+      <a href="#overview">Overview</a>
+      <a href="#configuration">Configuration</a>
+      <a href="#application">Application context</a>
+      <a href="#bundle">Bundle and coverage</a>
+      <a href="#scenarios">Scenario results</a>
+      <a href="#improvements">Security improvements</a>
+      <a href="#evidence">Evidence and limitations</a>
+    </nav>
+    <main id="main" tabindex="-1">
+      <section id="overview" class="overview">
+        <p class="eyebrow">Attack simulation / evidence review</p>
+        <h1>{{REPORT_TITLE}}</h1>
+        {{OVERVIEW}}
+      </section>
+      <section id="configuration">
+        <h2>Campaign configuration</h2>
+        {{CONFIGURATION}}
+      </section>
+      <section id="application">
+        <h2>Application context</h2>
+        {{APPLICATION}}
+      </section>
+      <section id="bundle">
+        <h2>Accepted bundle and coverage</h2>
+        {{BUNDLE}}
+      </section>
+      <section id="scenarios">
+        <h2>Scenario results</h2>
+        {{SCENARIO_INTRO}}
+        <!-- For zero scenarios, replace controls/table with an objective-results explanation. -->
+        <div class="filters" data-filters hidden>
+          <label>Find a scenario
+            <input id="scenario-search" type="search" placeholder="Search the scenario index">
+          </label>
+          <label>Execution coverage
+            <select id="coverage-filter">
+              <option value="all">All scenarios</option>
+              <option value="dispatched">Associated dispatched attempt</option>
+              <option value="not-dispatched">No associated dispatched attempt</option>
+              <option value="unknown">Unknown coverage</option>
+            </select>
+          </label>
+          <p id="filter-count" role="status" aria-live="polite"></p>
+        </div>
+        <div class="table-wrap" role="region" aria-label="Scenario index" tabindex="0">
+          <table>
+            <caption>Scenario index — execution coverage and evidence assessment are separate.</caption>
+            <thead><tr><th scope="col">Scenario</th><th scope="col">Required</th><th scope="col">Execution coverage</th><th scope="col">Evidence assessment</th></tr></thead>
+            <tbody>{{SCENARIO_ROWS}}</tbody>
+          </table>
+        </div>
+        <p id="filter-empty" hidden>No scenarios match. Clear the search or change the coverage filter.</p>
+        {{SCENARIO_DETAILS}}
+      </section>
+      <section id="improvements">
+        <h2>Security improvements</h2>
+        {{IMPROVEMENTS}}
+      </section>
+      <section id="evidence">
+        <h2>Evidence and limitations</h2>
+        {{EVIDENCE}}
+      </section>
+      <footer>INTRUSIVE.AI / Authored security review. Native results and source evidence are linked separately.</footer>
+    </main>
+  </div>
+</body>
+</html>
