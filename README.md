@@ -104,8 +104,9 @@ skills or select the skill explicitly. In Codex, name the skill in your request,
 for example:
 
 ```text
-Use the scenario-bundle-generation skill to create a bundle from these objectives
-and ./environment/capabilities.json.
+Use the scenario-bundle-generation skill to create a bundle from the testing goals
+in ./assessment-goals.md, using ./environment/capabilities.json to validate
+capability references.
 ```
 
 In Claude Code, use the installed slash command, for example:
