@@ -75,6 +75,10 @@ examples; protected fixture bodies and seed records are not public examples.
   data. Add identity only when it exercises an actual application path.
 - Model the application's declared hostnames and HTTP/TLS trust behavior. Use
   generated sandbox trust rather than disabling certificate verification.
+  For Certifi-backed Python clients, declare their image interpreter paths in
+  `network.tls.python_environments` under `auto` trust and let the wrapper build
+  install the CA. Follow [Python CA trust](python-ca-trust.md) for prerequisites,
+  mount restrictions, and custom-store limits.
 - Declare narrow filesystem seeds, mutable roots, and intended injection namespaces.
   Enable creation only with explicit bounds and compatible service/file semantics.
 - Enable snapshots only when required state survives a restart from the image,

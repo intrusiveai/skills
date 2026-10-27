@@ -176,4 +176,6 @@ version mismatch; stale locks require deliberate review/reseal/rebuild; import
 errors need the right entry/dependencies/workdir; path collisions or mounted
 destinations need a compatible image/workdir. Readiness alone does not establish
 application fidelity. Adapter success does not resolve separate database, model,
-TLS, or simulated-service gaps.
+TLS, or simulated-service gaps. For Certifi-backed Python HTTPS, use
+[Blueprint trust configuration](python-ca-trust.md) rather than adding a custom
+HTTP transport or SSL context to the invocation adapter solely for sandbox trust.

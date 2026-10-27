@@ -23,6 +23,8 @@ For Python/Node invocation glue supplied outside the target image, read
 or troubleshooting that interface. For applications using a remote embeddings
 model alongside generation, read [remote embeddings](references/remote-embeddings.md)
 when assessing model access, configuring the host, or verifying runtime behavior.
+For Python HTTPS clients, read [Python CA trust](references/python-ca-trust.md)
+when declaring environments, building wrappers, or diagnosing certificate failures.
 
 For a combined request, move between guides as the work reaches that phase.
 Do not load the blueprint assessment and authoring references for an installation,

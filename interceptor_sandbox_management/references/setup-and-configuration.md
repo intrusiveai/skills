@@ -36,6 +36,11 @@ an older CLI validate. The target image supplies Python/Node and application
 dependencies; these interpreters need not be installed on the host for released
 wrapper builds.
 
+For Python HTTPS integration, the target image must already supply Certifi in
+each declared interpreter's environment. Configure [Python CA trust](python-ca-trust.md)
+in the Blueprint; installing Certifi or the sandbox CA on the host does not
+configure the application container.
+
 Released installations need neither Go nor a source checkout for wrapper builds.
 Use source builds only for development or a requested source revision. Read the
 matching repository's build prerequisites and run its build command from that

@@ -82,8 +82,12 @@ native MCP-result or service-response injection; record the boundary the target
 actually traverses.
 
 Inspect the application's trust mechanism before selecting TLS `auto`, `bundle`,
-or `application-managed`. Certificate pinning that cannot accept sandbox trust
-is a gap, not permission to disable verification.
+or `application-managed`. For Python, identify each interpreter used for HTTPS,
+including subprocesses, and whether its client uses Certifi or a custom/vendored
+store. Follow [Python CA trust](python-ca-trust.md): HTTPX with `trust_env=False`
+needs the declared Certifi bundle integration, not a target-code or invocation
+adapter change. Certificate pinning that cannot accept sandbox trust is a gap,
+not permission to disable verification.
 
 For each dependency, conclude: modeled, deliberately out of scope, unsupported,
 or unresolved. Report the latter two with their effect on legitimate execution.

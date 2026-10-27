@@ -22,6 +22,11 @@ to the requested scope; do not require a full campaign to deliver a draft.
   when used), generation in the same session, model/error boundaries, and
   evidence/usage checks; see
   [embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
+- For Python HTTPS, declare the actual Certifi-backed image interpreters under
+  automatic TLS trust. Verify the application's HTTPS request and service evidence
+  with certificate verification enabled, plus controlled rejection cases. Record
+  unresolved custom-store, vendored-bundle, or pinning gaps; see
+  [Python trust verification](python-ca-trust.md#verify-the-application-path).
 - Synthetic services preserve the required request, response, mutation, identity,
   and error behavior. Unknown requests fail visibly rather than receiving success.
 - File roots, injection namespaces, collection creation, sinks, feedback, and

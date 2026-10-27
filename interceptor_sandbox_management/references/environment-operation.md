@@ -41,6 +41,11 @@ Do not run the wrapper manually or add `sandboxd` to the application Dockerfile.
 If the CLI, source image, seal, or build material no longer matches, diagnose the
 mismatch and rebuild as required instead of editing locks.
 
+For declared `network.tls.python_environments`, `app build` also installs the
+public CA into each image interpreter's Certifi bundle. See [Python CA trust](python-ca-trust.md)
+for build failures and mount conflicts. Changed declarations or dependencies need
+the appropriate reseal/rebuild; do not repair a running sandbox's packages.
+
 The generated capability manifest is a native Interceptor artifact. Operator
 exports a separate public projection and native companion for campaign inputs;
 use [the capability guide](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/operator-capabilities.md)
@@ -105,6 +110,9 @@ Verify repeated stateful calls, application errors, logs, and orderly cleanup.
 For embeddings targets, exercise document/query embeddings at the phases the
 application uses, together with generation in the same session; follow
 [embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
+For Python HTTPS targets, follow [trust verification](python-ca-trust.md#verify-the-application-path)
+to exercise their actual environments and clients, confirm fixture evidence, and
+check certificate rejection with verification enabled.
 A code call canceled after dispatch or timed out can have side effects; the driver
 terminates that language process and rejects further turns. Start a new session
 and inspect the outcome rather than automatically replaying the call.
