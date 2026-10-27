@@ -19,8 +19,10 @@ Keep assessment and validation notes beside the Blueprint, outside its sealed as
 
 Resolve the application image from an exact published digest or a locally inspected
 image ID. A source commit or mutable tag is not an image digest. If the requested
-onboarding includes building the application, use its existing build process and
-inspect the resulting image. Otherwise finish the useful draft and identify the
+onboarding includes building the application, reuse its build process or create a
+small image recipe when none exists, then inspect the resulting image. Follow
+[container packaging and writable storage](container-packaging.md) for image,
+launch, ownership, and initial-content requirements. Otherwise finish the useful draft and identify the
 missing image as a readiness gap; never invent a digest.
 
 ## Choose a schema and starting point
@@ -79,8 +81,11 @@ examples; protected fixture bodies and seed records are not public examples.
   `network.tls.python_environments` under `auto` trust and let the wrapper build
   install the CA. Follow [Python CA trust](python-ca-trust.md) for prerequisites,
   mount restrictions, and custom-store limits.
-- Declare narrow filesystem seeds, mutable roots, and intended injection namespaces.
-  Enable creation only with explicit bounds and compatible service/file semantics.
+- Declare narrow filesystem seeds and mutable roots for the application's actual
+  evidence/cache writes. Mounts can preserve its existing paths, work without
+  snapshots, and hide image contents; see [storage guidance](container-packaging.md#provide-writable-paths-with-mutable-roots).
+  File injection namespaces and their creation limits are separate opt-ins for
+  harness-driven mutations, not prerequisites for ordinary application writes.
 - Enable snapshots only when required state survives a restart from the image,
   seeds, declared files, and managed service state. Specify a real flush/readiness
   mechanism or justify `quiesce.kind: none` for safely captured state.

@@ -25,6 +25,8 @@ model alongside generation, read [remote embeddings](references/remote-embedding
 when assessing model access, configuring the host, or verifying runtime behavior.
 For Python HTTPS clients, read [Python CA trust](references/python-ca-trust.md)
 when declaring environments, building wrappers, or diagnosing certificate failures.
+For source-to-image onboarding or filesystem write failures, read
+[container packaging and writable storage](references/container-packaging.md).
 
 For a combined request, move between guides as the work reaches that phase.
 Do not load the blueprint assessment and authoring references for an installation,

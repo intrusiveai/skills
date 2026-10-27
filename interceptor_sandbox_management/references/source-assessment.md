@@ -56,9 +56,12 @@ mechanisms without reading or copying runtime secret values.
    paths the app implements. Service-wide bearer checks do not reproduce
    route-specific policies, live federation, browser login, or cloud IAM semantics.
 6. **State.** Locate persistent files, caches, databases, conversation state, and
-   buffered writes. Classify paths as immutable seed, captured mutable state,
-   disposable state, or unsupported external state. Check restart behavior and
-   the actual flush protocol before enabling snapshots.
+   buffered writes, including dependency/subprocess writes during initialization.
+   Record required initial contents, path configuration, and ownership-sensitive
+   operations such as chmod. Map ordinary evidence/cache writes to existing mutable
+   roots using [container packaging](container-packaging.md); retained caches need
+   no special disposable-storage behavior. Check restart behavior and the actual
+   flush protocol before enabling snapshots; keep unsupported external state visible.
 7. **Observations.** Identify reachable output, managed service mutations, sink
    requests, file changes, and model/tool boundaries that can support deterministic
    observations. Associate canaries and oracles with these paths, not a generic
@@ -75,9 +78,10 @@ mechanisms without reading or copying runtime secret values.
 | Input or mutable files | Seeds and narrow mutable roots | Restart semantics and bounded injection namespaces |
 | Attacker-observable HTTP | `http_sink` | Capture limits; static response unless dynamic behavior is intended |
 
-Runtime record creation needs an existing compatible create route/tool and a
-bounded opted-in collection. File creation needs an existing safe parent and
-explicit namespace limits. A model tool-result injection is distinct from a
+Harness-driven record creation needs an existing compatible create route/tool and
+a bounded opted-in collection. Harness-driven file creation needs an existing safe
+parent and explicit injection namespace limits. Ordinary application writes use
+the declared writable filesystem and do not require an injection namespace. A model tool-result injection is distinct from a
 native MCP-result or service-response injection; record the boundary the target
 actually traverses.
 

@@ -35,6 +35,7 @@ and operation contract are real; schema validation cannot establish this.
 | Remote embeddings alongside generation | [Remote embeddings](remote-embeddings.md) | Separate host credentials/allowlist; local SDK endpoint and packaged tokenizer dependencies |
 | Native model endpoint | [Model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md) | Like-for-like API, supported non-streaming subset, synthetic SDK credentials |
 | DNS, HTTP/TLS, fixture and stateful services | [Blueprint field reference](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/environment-blueprint.md) | Exact local hostnames/routing; unknown requests fail with coverage gaps |
+| Target image and writable evidence/cache directories | [Container packaging](container-packaging.md) | Explicit launch configuration; narrow mutable roots; seed initial contents deliberately; verify application permissions |
 | Python Certifi-backed HTTPS | [Python CA trust](python-ca-trust.md) | Absolute image interpreter paths in `network.tls.python_environments`; TLS enabled with `auto`; preserve certificate verification |
 | MCP tools | [MCP services](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/mcp-services.md) | Supported methods/results; no forwarding to a real server or arbitrary code in fixtures |
 | Synthetic users and delegated access | [Identity](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/identity.md) | Real application token flow; least required grants; no production identity material |

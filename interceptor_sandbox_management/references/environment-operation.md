@@ -29,6 +29,10 @@ draft as blocked on review rather than inventing metadata.
 Do not silently reseal unexpected changes to bypass inspection.
 A real image digest is required; a syntactically valid placeholder is insufficient.
 Building an application image and building its Interceptor wrapper are distinct.
+For image preparation or filesystem failures, follow [container packaging](container-packaging.md).
+Mutable roots provide writable directories at their declared paths even without
+snapshots; mounts hide existing image files, and image-side ownership does not
+set ownership of the replacement storage.
 
 The wrapper contains the Linux supervisor, any public sandbox CA, and any declared
 invocation adapter. `app build` copies the sealed `code.adapter_asset` directory

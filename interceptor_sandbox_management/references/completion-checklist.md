@@ -29,8 +29,15 @@ to the requested scope; do not require a full campaign to deliver a draft.
   [Python trust verification](python-ca-trust.md#verify-the-application-path).
 - Synthetic services preserve the required request, response, mutation, identity,
   and error behavior. Unknown requests fail visibly rather than receiving success.
+- The image includes the installed runtime, dependencies, and required offline
+  resources. Launch argv/workdir/environment are explicit in the Blueprint.
+  Actual evidence/cache writes use narrow mutable roots with suitable permissions
+  and required seed contents; see [packaging verification](container-packaging.md#verify-through-interceptor).
+  Verify startup and representative writes under Interceptor's application identity
+  and read-only root filesystem before claiming the packaged application works.
 - File roots, injection namespaces, collection creation, sinks, feedback, and
-  limits are intentional and bounded.
+  limits are intentional and bounded. Ordinary application writes do not require
+  harness file-injection permissions or a new disposable-storage mechanism.
 - Public delivery contracts/examples do not expose protected fixture bodies or
   seed values. Output shapes and unsupported capabilities are not guessed.
 - The selected CLI validates the directory. Record its version, command outcome,
