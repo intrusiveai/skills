@@ -1,6 +1,6 @@
 ---
 name: interceptor-sandbox-management
-description: Install, configure, and operate Interceptor Sandbox; assess target applications and create or revise Environment Blueprints; validate and build environments; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
+description: Install, configure, and operate Interceptor Sandbox; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
 ---
 
 # Interceptor Sandbox Management
@@ -17,6 +17,10 @@ Read only the guide for the current task, then follow its conditional references
 | Install or upgrade; configure Docker, model access, credentials, or host execution | [Setup and configuration](references/setup-and-configuration.md) |
 | Onboard an application; create or change its simulated world or Blueprint | [Blueprint creation](references/blueprint-creation.md) |
 | Use an existing Blueprint; seal/build/start; inspect, snapshot, restore, stop, or export | [Environment operation](references/environment-operation.md) |
+
+For Python/Node invocation glue supplied outside the target image, read
+[invocation adapters](references/invocation-adapters.md) when assessing, building,
+or troubleshooting that interface.
 
 For a combined request, move between guides as the work reaches that phase.
 Do not load the blueprint assessment and authoring references for an installation,
@@ -37,8 +41,12 @@ checkout is valid evidence, but generated instructions must not require a
 developer-specific source path. Check `interceptor version` and `interceptor help`
 rather than assuming a checkout's existing binary matches its source.
 
-These guides were reconciled with
+The baseline guides were reconciled with
 [source revision b93fd775](https://github.com/intrusiveai/interceptor_sandbox/tree/b93fd77545223909ff331c74516473e2986a0c0b).
+The adapter guidance was checked against
+[source revision 979458c](https://github.com/intrusiveai/interceptor_sandbox/tree/979458c256455b3ecae071570e9e0c4a18fae784).
+Confirm the selected executable contains that functionality; a rolling candidate
+version alone is not evidence that the change is included.
 Prefer matching implementation and executable tests when prose conflicts, and
 state the discrepancy. Do not silently combine incompatible versions.
 

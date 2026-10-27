@@ -28,6 +28,14 @@ application assessment is not an installation prerequisite.
 6. Recheck the selected executable's version and help. Preserve older installation
    and retained data unless their removal is part of the request.
 
+When a task needs separately supplied adapters, follow the
+[adapter version check](invocation-adapters.md#check-the-selected-executable).
+Do not assume the latest stable release or a rolling candidate version includes
+the required code, silently switch channels, or remove unsupported fields to make
+an older CLI validate. The target image supplies Python/Node and application
+dependencies; these interpreters need not be installed on the host for released
+wrapper builds.
+
 Released installations need neither Go nor a source checkout for wrapper builds.
 Use source builds only for development or a requested source revision. Read the
 matching repository's build prerequisites and run its build command from that

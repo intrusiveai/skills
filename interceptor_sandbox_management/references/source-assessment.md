@@ -26,6 +26,11 @@ mechanisms without reading or copying runtime secret values.
    Select an existing HTTP route, one-shot command, framed process, REPL, or
    Python/Node function. Preserve framing and error behavior. Health, administration,
    and quiescence endpoints are not automatically attack operations.
+   For Python/Node, inspect constructors, retained session objects, callable
+   signatures, sync/async behavior, cleanup, and imports. If the application does
+   not expose Interceptor's initializer/invoke convention, use a small separately
+   supplied [invocation adapter](invocation-adapters.md); do not assume it is
+   already in the target image or require a target-source change solely for glue.
 2. **Request contracts.** Derive input shapes from routes, parser/validation code,
    tests, or declared tool schemas. Note media types, size constraints, and
    confirmed versus unknown output shapes. Do not infer a universal output schema

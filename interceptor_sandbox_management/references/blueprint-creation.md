@@ -59,6 +59,10 @@ examples; protected fixture bodies and seed records are not public examples.
   supply the child's launch configuration.
 - Choose the existing HTTP, command, stdio, REPL, Python/Node code, or external
   adapter boundary that fits the source. Expose only intended application operations.
+  If Python/Node needs invocation glue, follow [invocation adapters](invocation-adapters.md):
+  put the code in a declared Blueprint asset directory and let `app build` install
+  it. Use code for application/session construction rather than inventing a YAML
+  object-construction scheme. Leave already compatible installed modules alone.
 - Route the native model API to the loopback proxy and declare any SDK-required
   synthetic credential with `accepted_by: model-proxy`. Record real host model
   adapter/authentication requirements separately.

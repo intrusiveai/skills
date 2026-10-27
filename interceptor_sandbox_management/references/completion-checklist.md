@@ -10,6 +10,11 @@ to the requested scope; do not require a full campaign to deliver a draft.
 - Every referenced asset exists inside the Blueprint boundary; no real credentials,
   production data, host credential configuration, or generated private TLS keys
   were copied into it.
+- If an invocation adapter is required, its directory and entry module are declared,
+  sealed, and supported by the selected CLI. The image supplies the runtime and
+  dependencies, and the installed path does not overlap writable roots or mounts.
+  A working-adapter claim includes repeated calls proving state retention, an
+  application-error case, and orderly cleanup; see [adapter verification](invocation-adapters.md#verify-and-troubleshoot).
 - Synthetic services preserve the required request, response, mutation, identity,
   and error behavior. Unknown requests fail visibly rather than receiving success.
 - File roots, injection namespaces, collection creation, sinks, feedback, and

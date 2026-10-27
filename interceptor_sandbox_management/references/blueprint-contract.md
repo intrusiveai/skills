@@ -12,7 +12,9 @@ A Blueprint contains one strict `environment.yaml` document and its referenced
 assets. Unknown fields, missing files, unsafe paths, invalid references, and
 ambiguous fixture rules fail validation. Keep assets below the Blueprint root;
 do not use absolute source paths, parent escapes, hard links, or special files.
-Only contained symlinks accepted by the validator are allowed.
+Only contained symlinks accepted by the validator are allowed. Invocation adapter
+directories are stricter: they and their source-path components cannot contain
+symlinks; hard links and unsupported file types are also rejected.
 
 Use an exact application image digest, explicit launch argv and absolute workdir,
 literal environment values, one matching interface block, and intended operations.
@@ -28,6 +30,7 @@ and operation contract are real; schema validation cannot establish this.
 
 | Feature being authored | Read | Preserve |
 | --- | --- | --- |
+| Separately supplied Python/Node invocation glue | [Invocation adapters](invocation-adapters.md) | `code.adapter_asset` is a sealed directory copied by `app build`; the image supplies the runtime and dependencies |
 | Delivery metadata for the harness | [Delivery contracts](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/delivery-contracts.md) | v1alpha2 for `delivery`/`delivery_asset`, service `export_contracts`, or MCP `implementation`; unknown output stays unknown |
 | Native model endpoint | [Model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md) | Like-for-like API, supported non-streaming subset, synthetic SDK credentials |
 | DNS, HTTP/TLS, fixture and stateful services | [Blueprint field reference](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/environment-blueprint.md) | Exact local hostnames/routing; unknown requests fail with coverage gaps |

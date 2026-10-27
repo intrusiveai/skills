@@ -30,8 +30,13 @@ Do not silently reseal unexpected changes to bypass inspection.
 A real image digest is required; a syntactically valid placeholder is insufficient.
 Building an application image and building its Interceptor wrapper are distinct.
 
-The wrapper contains the Linux supervisor and any public sandbox CA. Its matching
-application lock and private TLS material stay under the host data root.
+The wrapper contains the Linux supervisor, any public sandbox CA, and any declared
+invocation adapter. `app build` copies the sealed `code.adapter_asset` directory
+into `<launch.workdir>/.interceptor-adapter/`; the original application image stays
+unchanged. Adapter or helper edits require inspection/review, resealing, and a
+matching rebuild. See [invocation adapters](invocation-adapters.md) for imports,
+path restrictions, lifecycle, and failure handling. The matching application lock
+and private TLS material stay under the host data root.
 Do not run the wrapper manually or add `sandboxd` to the application Dockerfile.
 If the CLI, source image, seal, or build material no longer matches, diagnose the
 mismatch and rebuild as required instead of editing locks.
@@ -89,6 +94,14 @@ For a source-based reference demonstration, the matching checkout provides
 with a copied reference environment and new evidence output directory. The smoke
 client attaches a campaign, exercises invocation and snapshot restore, stops the
 target, and exports both sessions; it is not a harmless status probe.
+
+For adapter qualification, use the version-matched Python/Node examples and the
+client's `--adapter-only` mode as described in [invocation adapters](invocation-adapters.md).
+It also attaches a campaign and stops the target: use a dedicated test session.
+Verify repeated stateful calls, application errors, logs, and orderly cleanup. A
+code call canceled after dispatch or timed out can have side effects; the driver
+terminates that language process and rejects further turns. Start a new session
+and inspect the outcome rather than automatically replaying the call.
 
 ## Direct testing and Operator integration
 
