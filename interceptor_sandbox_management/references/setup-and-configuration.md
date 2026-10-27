@@ -72,6 +72,7 @@ The application's native API determines the compatible host adapter:
 | --- | --- |
 | OpenAI Chat Completions | `openai-chat`, or matching Azure/LiteLLM route |
 | OpenAI Responses | `openai-responses`, or matching Azure/LiteLLM route |
+| OpenAI-compatible embeddings | Independent `--embeddings-provider openai-compatible`; see [remote embeddings](remote-embeddings.md) |
 | Anthropic Messages | `anthropic-messages` |
 | Gemini generateContent | `gemini-api` or `vertex-gemini` |
 | Bedrock Converse | `bedrock-converse` |
@@ -80,6 +81,10 @@ Interceptor does not translate between these protocols. Check the selected
 version's supported request subset: streaming, provider-hosted tools, stored
 conversation dependencies, and multimodal/file input are not supported by the
 reviewed version. A working host key cannot fix an incompatible application API.
+
+For remote embeddings, configure the separate endpoint, authentication, and model
+allowlist described in [remote embeddings](remote-embeddings.md#configure-independent-host-access).
+Generation options do not enable or authorize embeddings.
 
 Select a fixed upstream origin and exact allowed model IDs. HTTP adapters use
 `--provider-base-url`; Bedrock uses its AWS configuration. The application's

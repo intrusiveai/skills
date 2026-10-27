@@ -32,6 +32,7 @@ and operation contract are real; schema validation cannot establish this.
 | --- | --- | --- |
 | Separately supplied Python/Node invocation glue | [Invocation adapters](invocation-adapters.md) | `code.adapter_asset` is a sealed directory copied by `app build`; the image supplies the runtime and dependencies |
 | Delivery metadata for the harness | [Delivery contracts](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/delivery-contracts.md) | v1alpha2 for `delivery`/`delivery_asset`, service `export_contracts`, or MCP `implementation`; unknown output stays unknown |
+| Remote embeddings alongside generation | [Remote embeddings](remote-embeddings.md) | Separate host credentials/allowlist; local SDK endpoint and packaged tokenizer dependencies |
 | Native model endpoint | [Model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md) | Like-for-like API, supported non-streaming subset, synthetic SDK credentials |
 | DNS, HTTP/TLS, fixture and stateful services | [Blueprint field reference](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/environment-blueprint.md) | Exact local hostnames/routing; unknown requests fail with coverage gaps |
 | MCP tools | [MCP services](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/mcp-services.md) | Supported methods/results; no forwarding to a real server or arbitrary code in fixtures |

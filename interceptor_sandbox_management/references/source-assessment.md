@@ -39,6 +39,10 @@ mechanisms without reading or copying runtime secret values.
    tools, streaming, stored state, and credential requirements. Check the exact
    supported subset in
    [model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md).
+   Identify generation and embeddings clients separately, including startup calls,
+   endpoint overrides, model/dimension choices, SDK tokenization, and batch size.
+   Distinguish remote embeddings from a local model and from vector-store access;
+   use [remote embeddings](remote-embeddings.md) for the supported transport.
    Hard-coded endpoints and unsupported features are integration gaps; identify
    any source change needed instead of claiming the Blueprint fixes it.
 4. **Dependencies.** Trace actual HTTP/MCP methods and file/subprocess access,

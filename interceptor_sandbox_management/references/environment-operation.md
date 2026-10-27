@@ -64,7 +64,10 @@ interceptor run \
 
 Replace the model, credential ID, path, and adapter with configured values.
 For explicit environment-key or cloud identity authentication, read only the
-matching section of [setup and configuration](setup-and-configuration.md).
+matching section of [setup and configuration](setup-and-configuration.md). When
+the target also uses remote embeddings, add the independent
+[embeddings options](remote-embeddings.md#configure-independent-host-access);
+`--allow-model` alone does not grant embeddings access.
 
 Keep `run` in the foreground in a managed terminal/process session. It owns the
 target, host provider bridge, and fixed API at `http://127.0.0.1:8080`; only one
@@ -98,8 +101,11 @@ target, and exports both sessions; it is not a harmless status probe.
 For adapter qualification, use the version-matched Python/Node examples and the
 client's `--adapter-only` mode as described in [invocation adapters](invocation-adapters.md).
 It also attaches a campaign and stops the target: use a dedicated test session.
-Verify repeated stateful calls, application errors, logs, and orderly cleanup. A
-code call canceled after dispatch or timed out can have side effects; the driver
+Verify repeated stateful calls, application errors, logs, and orderly cleanup.
+For embeddings targets, exercise document/query embeddings at the phases the
+application uses, together with generation in the same session; follow
+[embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
+A code call canceled after dispatch or timed out can have side effects; the driver
 terminates that language process and rejects further turns. Start a new session
 and inspect the outcome rather than automatically replaying the call.
 

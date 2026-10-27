@@ -15,6 +15,13 @@ to the requested scope; do not require a full campaign to deliver a draft.
   dependencies, and the installed path does not overlap writable roots or mounts.
   A working-adapter claim includes repeated calls proving state retention, an
   application-error case, and orderly cleanup; see [adapter verification](invocation-adapters.md#verify-and-troubleshoot).
+- For remote embeddings, verify the selected executable supports the route;
+  generation and embeddings have independent host configuration; the application
+  uses the local endpoint and packaged SDK/tokenizer dependencies. A working
+  integration claim covers the application's embedding calls (including startup
+  when used), generation in the same session, model/error boundaries, and
+  evidence/usage checks; see
+  [embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
 - Synthetic services preserve the required request, response, mutation, identity,
   and error behavior. Unknown requests fail visibly rather than receiving success.
 - File roots, injection namespaces, collection creation, sinks, feedback, and

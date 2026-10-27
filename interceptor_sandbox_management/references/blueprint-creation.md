@@ -65,7 +65,9 @@ examples; protected fixture bodies and seed records are not public examples.
   object-construction scheme. Leave already compatible installed modules alone.
 - Route the native model API to the loopback proxy and declare any SDK-required
   synthetic credential with `accepted_by: model-proxy`. Record real host model
-  adapter/authentication requirements separately.
+  adapter/authentication requirements separately. For remote embeddings, follow
+  [the embeddings guide](remote-embeddings.md) for independent host configuration,
+  SDK endpoint selection, packaged tokenizer caches, and startup calls.
 - Map immutable responses to exact fixtures, mutable JSON records to stateful
   services, and supported MCP tool calls to `mcp_http`. Cover the legitimate
   path first. Unsupported live dependencies remain visible gaps.

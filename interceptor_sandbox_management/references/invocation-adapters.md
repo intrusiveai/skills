@@ -134,6 +134,16 @@ values; Node serialization failures fail the turn.
   side effects rather than replaying automatically. Canceling while waiting for
   an invocation slot does not terminate the process.
 
+## Remote model calls during initialization
+
+An adapter can configure the application's generation and embeddings SDK clients
+and call them during initialization or subsequent turns. Use the existing local
+model proxy and independent host provider configuration described in
+[remote embeddings](remote-embeddings.md). Package SDK dependencies and any
+tokenizer cache in the image, declare required cache paths in the launch
+environment, and bound initialization and invocation timeouts. Do not replace
+remote embeddings with fabricated vectors or imply database emulation.
+
 ## Verify and troubleshoot
 
 For a working integration, follow the normal build and `interceptor run` flow,
