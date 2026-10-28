@@ -55,6 +55,23 @@ the same trusted host at `127.0.0.1:8080`. There is no integration token or remo
 gateway. Do not attach a probe campaign: Interceptor binds to its first campaign
 for the process lifetime. An offline export does not establish live readiness.
 
+### PostgreSQL-backed Interceptor targets
+
+Use the generated public export to identify the database service and supported
+`database_response` / `environment_state` actions. Configure explicit permitted
+routes for the intended mode and table/field scope. Public capabilities describe
+what is available; they do not authorize arbitrary SQL or disclose private schema,
+seed contents, credentials or oracle queries. Keep those in the Interceptor
+Blueprint. Use Interceptor management for database setup, TLS and readiness checks.
+
+Response injection changes returned content; persistent state injection commits
+an allowed record change. Creation permission and bounds must be present in the
+advertised policy; an available database service alone does not grant them.
+Regenerate exports through the normal tooling when the Blueprint changes, and
+preserve the generated companion. Use the projection's actual identifiers and
+route vocabulary; do not relabel a database response as an HTTP response or edit
+exported JSON to make policy validation pass.
+
 ### HTTPS target
 
 Read [HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTPS_TARGETS.md)

@@ -28,6 +28,11 @@ to the requested scope; do not require a full campaign to deliver a draft.
   when used), generation in the same session, model/error boundaries, and
   evidence/usage checks; see
   [embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
+- For PostgreSQL/pgvector, verify populated schema/seeds, application grants,
+  driver-specific TLS with verification enabled, and representative pooled queries
+  and writes. Check vector/model compatibility. Injection and restore claims need
+  native delivery/committed-state evidence and actual restored database/application
+  state; use [database verification](postgresql.md#verify-committed-state-and-restoration).
 - For Python HTTPS, declare the actual Certifi-backed image interpreters under
   automatic TLS trust. Verify the application's HTTPS request and service evidence
   with certificate verification enabled, plus controlled rejection cases. Record

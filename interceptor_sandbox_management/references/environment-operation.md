@@ -50,6 +50,12 @@ public CA into each image interpreter's Certifi bundle. See [Python CA trust](py
 for build failures and mount conflicts. Changed declarations or dependencies need
 the appropriate reseal/rebuild; do not repair a running sandbox's packages.
 
+For a declared PostgreSQL service, `app build` also packages the native engine,
+pgvector and backup tools. Interceptor owns private database storage and endpoints;
+do not add a database sidecar or application-writable data mount. Follow
+[managed PostgreSQL](postgresql.md) for build prerequisites, populated seeds,
+driver-specific CA configuration, limits and representative verification.
+
 The generated capability manifest is a native Interceptor artifact. Operator
 exports a separate public projection and native companion for campaign inputs;
 use [the capability guide](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/operator-capabilities.md)
@@ -175,6 +181,12 @@ serialized by a [state adapter](application-state-adapters.md), rather than proc
 memory, network connections, or the harness conversation. On restored startup,
 configured state hooks run before readiness. The application's logical identity
 can survive while the native sandbox session and binding change.
+
+Managed PostgreSQL snapshots include a native logical backup, injection progress
+and oracle baselines. Open transactions reject capture; idle pools do not. Restore
+uses the saved state without reseeding or replaying writes, and the application
+recreates its pool during initialization. This does not replace application context
+persistence; see [database restoration](postgresql.md#verify-committed-state-and-restoration).
 
 For full-context restore claims, follow [continuation verification](application-state-adapters.md#verify-faithful-continuation):
 compare the next model request and relevant state with uninterrupted execution,

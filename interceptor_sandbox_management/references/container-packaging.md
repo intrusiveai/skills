@@ -37,6 +37,12 @@ Image construction and wrapper construction are separate steps. Inspect the buil
 image and reference its exact digest in the Blueprint before sealing and running
 `interceptor app build`. See [Blueprint creation](blueprint-creation.md).
 
+For [managed PostgreSQL](postgresql.md), install only the application's normal
+driver dependencies in the target image. `app build` packages PostgreSQL/pgvector
+and their runtime libraries and notices. Declare schema/populated seed SQL in the
+Blueprint; do not bundle a running database, mount its data as an application
+mutable root, or copy a host database into the image.
+
 ## Declare launch behavior explicitly
 
 Interceptor launches the application from `application.launch.command`, `workdir`,
@@ -170,4 +176,6 @@ read-only failures by the actual path/mount, permission failures by the actual
 UID/GID and operation, and missing files by mount masking or incomplete packaging.
 Fix the image/configuration and rebuild; do not patch a running sandbox or weaken
 containment. Report exercised paths and remaining dependency gaps, including
-unsupported database access, without treating the packaging recipe as solving them.
+unsupported database types or driver features, without treating containerization
+alone as a database integration. Use the managed PostgreSQL guide for its supported
+path and native database verification.

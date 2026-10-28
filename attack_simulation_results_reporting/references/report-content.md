@@ -51,6 +51,14 @@ Do not imply Operator inspected application internals, verified architecture, or
 observed behavior beyond its evidence. State material unknowns and the limits of
 Interceptor feedback or HTTPS declared-observer assurance.
 
+For database-backed targets, include the relevant retained service and injection
+mode, declared creation bounds, reset/restore scope, and independent outcome-check
+coverage when they affect interpretation. Keep observed model delivery, persistent
+harness changes and application business outcomes separate. Do not expose private
+schema/seed data, credentials or oracle SQL merely to explain the setup; report
+only evidence permitted for the destination. Use the database distinctions in
+[evidence interpretation](evidence-interpretation.md#interpret-native-database-evidence).
+
 ## Accepted bundle and coverage
 
 Provide a working local link to the exact accepted bundle, bundle ID/version,

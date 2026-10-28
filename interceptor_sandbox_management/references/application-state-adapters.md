@@ -128,6 +128,12 @@ session does not load a checkpoint just because a file exists. Use the existing
 [restore lifecycle](environment-operation.md#snapshots-and-restore); no new restore
 command or endpoint is needed.
 
+With [managed PostgreSQL](postgresql.md#verify-committed-state-and-restoration),
+save hooks can finish database work before the coordinator freezes and backs it
+up. Resolve open transactions before capture; idle pools may remain. On restore,
+the backend is ready before application initialization and pools reconnect normally.
+Serialize logical application context, not database files, connections or pools.
+
 | Failure | Required handling |
 | --- | --- |
 | Missing/non-callable hooks or invalid path | Correct the adapter/configuration and reseal/rebuild as appropriate |

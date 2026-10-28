@@ -100,6 +100,28 @@ a rewritten tool result. Use Interceptor management for detailed observation
 semantics; the [native evidence contract](https://github.com/intrusiveai/interceptor_sandbox/blob/65ddd10a9867fec75871bf8470f1521b0dc467de/specs/observed-turn-evidence.md)
 defines the limits of timing-based association.
 
+### Database state across attempts and restore
+
+Deleting or disabling a persistent database injection does not undo its committed
+write. Successful injection cleanup is therefore separate from restoring the
+baseline. Follow the requested campaign's permitted checkpoint/fresh-session
+strategy when attempts require isolation; do not add a reset to an intentionally
+stateful sequence or issue ad hoc SQL to clean up the target.
+
+Snapshots reject unresolved database transactions but allow idle connection pools.
+Restore replaces the sandbox session and binding, restores database/injection/oracle
+state, and reconnects the application normally. It still requires sufficient
+application persistence for conversation continuity. Use Interceptor management
+for target-side diagnostics rather than changing application transaction behavior
+or discarding state to force capture.
+
+A response rewrite, successful statement, and committed business outcome are
+separate observations. Use the retained independent database oracle for the
+business condition, preserve observed-during-turn attribution, and keep harness
+writes distinct from application effects. A database COMMIT may have taken effect
+before evidence storage fails: retain that uncertainty and apply the existing
+no-replay failure handling below. Injection cleanup cannot resolve it.
+
 ## Terminate and verify cleanup
 
 For an explicit stop request, use the campaign ID and its original state root:

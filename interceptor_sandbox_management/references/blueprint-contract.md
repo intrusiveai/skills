@@ -33,6 +33,7 @@ and operation contract are real; schema validation cannot establish this.
 | Separately supplied Python/Node invocation glue | [Invocation adapters](invocation-adapters.md) | `code.adapter_asset` is a sealed directory copied by `app build`; the image supplies the runtime and dependencies |
 | Delivery metadata for the harness | [Delivery contracts](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/delivery-contracts.md) | v1alpha2 for `delivery`/`delivery_asset`, service `export_contracts`, or MCP `implementation`; unknown output stays unknown |
 | Remote embeddings alongside generation | [Remote embeddings](remote-embeddings.md) | Separate host credentials/allowlist; local SDK endpoint and packaged tokenizer dependencies |
+| Managed PostgreSQL and pgvector | [Database configuration and operation](postgresql.md) | Ordered schema/populated seeds, verified driver TLS, synthetic roles, bounded table policies and committed-state oracles |
 | Native model endpoint | [Model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md) | Like-for-like API, supported non-streaming subset, synthetic SDK credentials |
 | DNS, HTTP/TLS, fixture and stateful services | [Blueprint field reference](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/environment-blueprint.md) | Exact local hostnames/routing; unknown requests fail with coverage gaps |
 | Target image and writable evidence/cache directories | [Container packaging](container-packaging.md) | Explicit launch configuration; narrow mutable roots; seed initial contents deliberately; verify application permissions |
@@ -56,6 +57,8 @@ and operation contract are real; schema validation cannot establish this.
   an existing safe parent plus explicit count and byte bounds.
 - HTTP/MCP state creation at injection time requires a sealed compatible create
   route/tool and an opted-in bounded collection. It cannot invent service semantics.
+  PostgreSQL record creation uses its declared table/key/field policy and explicit
+  creation limit instead; it does not require an HTTP route or MCP tool.
 - Use a static HTTP sink for capture-only behavior; dynamic responses are an
   intentional bounded injection surface. Destination, status, headers, and request
   allowlists remain sealed.

@@ -2,8 +2,10 @@
 
 Read this when assessing, configuring, or troubleshooting an application that calls
 a remote embeddings model. Generation, embedding computation, and vector-database
-access are distinct dependencies. This transport does not emulate PostgreSQL or
-pgvector, migrate a corpus, or install a local embedding model.
+access are distinct dependencies. Configure PostgreSQL/pgvector through the
+separate [managed database service](postgresql.md), including populated vector seeds
+compatible with the query embedding model. The embeddings transport does not
+provision a database, migrate a corpus, or install a local embedding model.
 
 ## Check the selected executable
 
@@ -151,4 +153,5 @@ from local builds and configuration checks from actual managed-restore execution
 Diagnose missing flags as a version mismatch, initialization cache downloads as an
 image/launch configuration issue, and model-denied errors against the embeddings
 allowlist. Check endpoint/authentication independently of generation, and reduce
-batch size for body limits. Database connectivity failures remain a separate gap.
+batch size for body limits. Diagnose database connectivity, driver trust, schema
+and vector compatibility separately using [managed PostgreSQL](postgresql.md).

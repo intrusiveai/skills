@@ -49,8 +49,11 @@ mechanisms without reading or copying runtime secret values.
    including pagination, retries, mutation, error responses, authentication, DNS,
    and TLS trust. An SDK name is not evidence of which operations are needed.
    Include network calls made by subprocesses. Arbitrary subprocess output,
-   private pipes, databases, queues, browsers, and live cloud APIs are not
-   automatically intercepted or faithfully simulated.
+   private pipes, undeclared databases, queues, browsers, and live cloud APIs are
+   not automatically intercepted or faithfully simulated. For PostgreSQL/pgvector,
+   assess the actual driver, pool, SQL/schema, seed corpus and TLS requirements
+   using [managed PostgreSQL](postgresql.md). Other database types need their own
+   supported integration; do not infer support from SQL similarity.
 5. **Identity.** Identify workload identity, inbound users, delegated access,
    audiences, scopes, token delivery, and authorization enforcement. Simulate only
    paths the app implements. Service-wide bearer checks do not reproduce
@@ -83,14 +86,17 @@ mechanisms without reading or copying runtime secret values.
 | --- | --- | --- |
 | Immutable HTTP response | `fixture_http` | Exact request match and response; no broad success fallback |
 | Mutable JSON service | `stateful_http` | Small seed/route model matching operations actually used |
+| PostgreSQL/pgvector | Managed `postgresql` service | Native driver/TLS, populated schema/seeds, grants, vector representation, transactions and limits |
 | Non-streaming MCP tools | `mcp_http` | Input schemas and real result structure; fixture or stateful behavior |
 | Workload/delegated identity | Synthetic identity | Actual token flow and intended grant boundary |
 | Input or mutable files | Seeds and narrow mutable roots | Restart semantics and bounded injection namespaces |
 | Attacker-observable HTTP | `http_sink` | Capture limits; static response unless dynamic behavior is intended |
 
-Harness-driven record creation needs an existing compatible create route/tool and
-a bounded opted-in collection. Harness-driven file creation needs an existing safe
-parent and explicit injection namespace limits. Ordinary application writes use
+Harness-driven HTTP/MCP record creation needs an existing compatible create
+route/tool and a bounded opted-in collection. PostgreSQL creation instead uses
+sealed table/key/field policy with explicit bounded creation permission; see
+[database injection boundaries](postgresql.md#distinguish-the-injection-boundaries).
+Harness-driven file creation needs an existing safe parent and explicit injection namespace limits. Ordinary application writes use
 the declared writable filesystem and do not require an injection namespace. A model tool-result injection is distinct from a
 native MCP-result or service-response injection; record the boundary the target
 actually traverses.

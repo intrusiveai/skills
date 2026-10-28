@@ -76,6 +76,29 @@ to hide this mismatch; report the unavailable requirement or optional gap.
 See [HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTPS_TARGETS.md)
 only when that adapter is relevant.
 
+## Database-backed scenarios
+
+When the user's scenario involves PostgreSQL, distinguish the requested mechanism:
+`database_response` modifies eligible returned values; `environment_state` changes
+permitted stored records. Bind only the actual action/service references and
+policy limits in the public export. A database service does not imply arbitrary
+SQL, writable fields, record creation, or an HTTP/MCP route. Preserve the export's
+advertised selectors and supported placement types; do not invent a new bundle
+field or reference namespace for a database table.
+
+Initial schemas and populated/vector seeds belong in the Interceptor Blueprint,
+not in a bundle as executable database setup. Supporting files remain passive
+content. Describe delivery and outcome criteria separately when the supplied goal
+requires them: rewritten or retrieved content does not itself prove model delivery,
+and model delivery does not prove a committed business mutation. Independent
+committed-state evidence must actually be available under the selected feedback
+policy; administrator-only archives are not additional Harness feedback.
+
+Express any user-required baseline/reset expectations using advertised snapshot
+capabilities and campaign policy. Disabling a state injection does not reverse its
+stored effects. These distinctions constrain compatibility and interpretation;
+they do not prescribe database scenarios or expand the user's testing agenda.
+
 ## Required dependencies versus suggestions
 
 Top-level required references and dependencies on required objectives/scenarios

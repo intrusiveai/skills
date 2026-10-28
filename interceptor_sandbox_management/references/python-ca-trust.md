@@ -96,6 +96,11 @@ feature needs no Node trust-store modification. Python's system-store clients
 also retain the existing automatic system trust handling; do not describe Certifi
 injection as a universal Python TLS override.
 
+PostgreSQL drivers use a separate trust path: Certifi injection does not configure
+libpq/Psycopg. Use the driver
+[CA and hostname verification settings](postgresql.md#assess-and-configure-the-applications-actual-database-path)
+for that connection; do not treat successful HTTPX verification as a database TLS test.
+
 ## Verify the application path
 
 For a working-environment claim, invoke a representative application operation

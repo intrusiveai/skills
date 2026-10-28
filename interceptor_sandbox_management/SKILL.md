@@ -1,6 +1,6 @@
 ---
 name: interceptor-sandbox-management
-description: Install, configure, and operate Interceptor Sandbox, including generation and remote embeddings access; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation and state adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
+description: Install, configure, and operate Interceptor Sandbox, including generation, remote embeddings, and managed PostgreSQL; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation and state adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
 ---
 
 # Interceptor Sandbox Management
@@ -30,6 +30,10 @@ For source-to-image onboarding or filesystem write failures, read
 For conversation/session restoration, read
 [application state adapters](references/application-state-adapters.md) when assessing
 snapshot compatibility, adding persistence hooks, or verifying continuation.
+
+For PostgreSQL/pgvector dependencies, database injections, or database restore,
+read [managed PostgreSQL](references/postgresql.md). It covers populated seeds,
+driver-specific TLS, committed-state checks, and the wrapper-managed engine.
 
 For native turn attribution or incomplete capture, read the environment guide's
 [observation semantics](references/environment-operation.md#interpret-native-observations)
