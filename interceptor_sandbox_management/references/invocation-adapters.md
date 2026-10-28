@@ -96,6 +96,11 @@ default. Python supports `single` input or object-to-keyword expansion with
 Node adapter is explicitly safe for overlapping calls (the supported limit is 32).
 With `code.state`, concurrency must remain one for either language; see
 [application state adapters](application-state-adapters.md).
+Interceptor establishes observation windows after adapter capacity is available;
+no adapter-supplied turn header is needed. Work that outlives a call and overlapping
+invocations limit turn association. Preserve the application's normal execution
+and describe those limits rather than serializing or rewriting it solely to
+manufacture causal evidence. See [native observations](environment-operation.md#interpret-native-observations).
 Return JSON-compatible values: Python retains its string fallback for other
 values; Node serialization failures fail the turn.
 

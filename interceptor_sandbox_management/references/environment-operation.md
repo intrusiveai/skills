@@ -184,6 +184,35 @@ is needed solely because snapshots are requested. Missing or incompatible adapte
 state fails restored startup; a fresh conversation is not a successful restore. Read [snapshot semantics](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/snapshots-and-restore.md)
 only when the saved-state boundary matters.
 
+## Interpret native observations
+
+Interceptor associates model and managed-service requests with the sole invocation
+executing when the request enters its collector. No target-source change, adapter
+header propagation, or Blueprint correlation option is needed. Describe this as
+**observed during a turn**, not caused by that turn. The implementation contract
+and field semantics are documented in
+[observed-turn evidence](https://github.com/intrusiveai/interceptor_sandbox/blob/65ddd10a9867fec75871bf8470f1521b0dc467de/specs/observed-turn-evidence.md).
+
+Queued invocations are not active windows. Parallel requests within one invocation
+share its window; overlapping invocations produce ambiguous observations without
+a guessed turn. Startup, state-save/restore, and between-turn requests normally
+remain session observations. Uncertain execution after cancellation also prevents
+confident assignment. Independent background work may occur inside a later turn's
+window; timing cannot identify the turn that initiated it.
+
+A late response keeps the association captured at request entry. A turn that ends
+with outstanding requests reports partial capture; later records remain available
+in exported evidence but do not retroactively update retained feedback receipts.
+Keep the observed invocation/attempt separate from an injection's originating
+attempt. Neither shared timing nor a shared identifier proves causal influence.
+
+Distinguish native model exchanges, managed-service observations, and committed
+service state. A model's assertion or rewritten tool result does not prove a
+business mutation committed; use independent state/journal evidence. Previously
+fired oracles may be session-cumulative, including across restore, and do not
+establish a new turn's effect. Interceptor collects evidence independently of
+agent-authored logs; their IDs and contents do not need to be correlated.
+
 ## Inspect, stop, and export
 
 While the session is running, administrator checks include:
@@ -222,6 +251,44 @@ for archive contents and size limits.
 Purge only when deletion is requested, using the narrowest session/campaign selector.
 It removes retained evidence and restore points after inactive-state checks.
 Stopping or exporting does not imply permission to purge.
+
+## Required evidence-storage failures
+
+`evidence_storage_error` and the session's `evidence_incomplete` taint indicate
+that required native evidence could not be preserved. This applies to generation,
+embeddings, managed-service observations, and turn results. Further turns and new
+snapshots are blocked in that session. A request-capture failure prevents that
+request from being forwarded; a response-capture failure can occur after an
+operation has taken effect. Do not claim rollback or replay the operation to
+reconstruct the missing record.
+
+Inspect the original diagnostic, storage capacity, filesystem availability and
+permissions, and applicable capture limits. Distinguish Interceptor's native
+storage from an application's writable directories. Correct the demonstrated
+cause without deleting retained records or broadening target access. If saving
+failure status also failed, preserve the caller-visible diagnostic rather than
+assuming metadata contains it.
+
+Use the existing status, retained feedback, stop, and export paths as available.
+An error session without a retained receipt for the failed turn can report
+`evidence_storage_error` instead of providing new feedback. Partial or unavailable
+evidence is not a negative oracle result. Export healthy retained material when
+integrity permits; a corrupt stream may prevent export and must not be truncated
+or rewritten to make verification pass. Previously completed checkpoints retain
+their original scope; a fresh checkpoint cannot repair missing evidence.
+
+After fixing storage, use a fresh session; the failure latch does not clear in
+place. When a campaign is involved, use Operator management for its terminal
+handling and any separately authorized new campaign. Repairing a target does not
+resume a failed campaign.
+
+When specifically qualifying this boundary, use the matching checkout's
+`scripts/qualify_release.py` with `--state-snapshots --evidence-failure` and
+`--adapter-language python` or `node`, plus its required archive, source/version,
+image, client, and fresh output arguments. It temporarily removes write permission
+from its own disposable test session's blob directory, checks retained effects
+and blocked work, and cleans up. Do not fault an existing campaign or require this
+qualification for an ordinary onboarding/status request.
 
 ## Troubleshooting and completion
 

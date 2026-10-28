@@ -31,6 +31,12 @@ For conversation/session restoration, read
 [application state adapters](references/application-state-adapters.md) when assessing
 snapshot compatibility, adding persistence hooks, or verifying continuation.
 
+For native turn attribution or incomplete capture, read the environment guide's
+[observation semantics](references/environment-operation.md#interpret-native-observations)
+and [storage failure handling](references/environment-operation.md#required-evidence-storage-failures)
+as relevant. Campaign response belongs to Operator management; target storage
+repair and session replacement belong here.
+
 For a combined request, move between guides as the work reaches that phase.
 Do not load the blueprint assessment and authoring references for an installation,
 status lookup, or evidence export. Start troubleshooting in the guide for the

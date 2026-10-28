@@ -94,6 +94,12 @@ An accepted start or assessment does not prove a successful experiment. A retain
 status is not itself a live health probe. Preserve uncertain operations and missing
 evidence rather than converting them to success or confirmed absence.
 
+For Interceptor targets, a native turn association means **observed during** that
+invocation, not caused by it. Do not infer a committed mutation from model text or
+a rewritten tool result. Use Interceptor management for detailed observation
+semantics; the [native evidence contract](https://github.com/intrusiveai/interceptor_sandbox/blob/65ddd10a9867fec75871bf8470f1521b0dc467de/specs/observed-turn-evidence.md)
+defines the limits of timing-based association.
+
 ## Terminate and verify cleanup
 
 For an explicit stop request, use the campaign ID and its original state root:
@@ -127,6 +133,9 @@ Use the reported stage to choose the narrow fix:
   and selected authentication without printing raw errors or secrets;
 - invalid-call or conclusion failure: inspect the reported field/rule and matching
   Harness/contract versions; do not fabricate receipts or weaken validators;
+- Interceptor `evidence_storage_error` or `evidence_incomplete`: follow
+  [evidence failure handling](#interceptor-evidence-storage-failures); missing
+  capture is not an ordinary model rejection or a resisted attack;
 - cleanup/report failure: preserve the original execution outcome and address
   that separate failure.
 
@@ -145,6 +154,28 @@ cannot resume them. Read
 only when unresolved resources block a new campaign. Never delete state or switch
 targets to make that uncertainty disappear.
 
+### Interceptor evidence-storage failures
+
+Treat required native capture failure as a terminal campaign problem. Preserve
+uncertain effects: the target may have completed a model call or service mutation
+before its response evidence was lost. Do not turn missing evidence into success,
+confirmed absence, or a resisted attack, and do not replay affected operations.
+Previously established results remain facts within their original scope; they do
+not make the affected turn's evidence complete.
+
+Inspect the saved run/campaign completion and target status. Retain available
+campaign and Interceptor evidence, including explicit partial/unavailable status.
+A failed turn without a retained feedback receipt may report
+`evidence_storage_error` rather than yield new feedback. Do not fabricate a receipt
+or interpret its absence as an empty successful result.
+
+Verify campaign closure, injection cleanup, optional target stop, and container
+cleanup independently through the existing lifecycle. Do not assume storage
+failure itself completed cleanup, bypass target-stop policy, or purge the records.
+Hand off storage diagnosis/repair and fresh-session setup to Interceptor
+management. Fixing the target does not resume the failed campaign; any separate
+new campaign follows the existing authorization and no-replay guidance above.
+
 ## Retain results and hand off reporting
 
 The worker attempts a native report after execution and durable completion.
@@ -162,7 +193,9 @@ If the user requests recovery of missing Interceptor evidence, read
 or [archive import](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/EVIDENCE_IMPORT.md).
 These use saved provenance and are separate from report generation. Collection
 does not stop targets, invoke applications, or resume work. Partial evidence
-remains partial even when transport succeeds.
+remains partial even when transport succeeds. Late collection can retrieve
+records that were retained; it cannot recreate observations that were never
+stored. Keep the original capture failure visible in the reporting handoff.
 
 Only for requested deletion, use the narrowest campaign purge selector and follow
 [purge](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/PURGE.md).

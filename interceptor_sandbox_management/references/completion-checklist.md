@@ -35,6 +35,12 @@ to the requested scope; do not require a full campaign to deliver a draft.
   [Python trust verification](python-ca-trust.md#verify-the-application-path).
 - Synthetic services preserve the required request, response, mutation, identity,
   and error behavior. Unknown requests fail visibly rather than receiving success.
+- Where the working integration claims turn-level evidence, inspect native model
+  and service records across representative turns. Report observed-window
+  association, ambiguity/background limits, and capture completeness separately
+  from hash integrity. Application log correlation is unnecessary. Use independent
+  service state for committed effects; cumulative oracle results do not prove a
+  new turn caused them. See [native observations](environment-operation.md#interpret-native-observations).
 - The image includes the installed runtime, dependencies, and required offline
   resources. Launch argv/workdir/environment are explicit in the Blueprint.
   Actual evidence/cache writes use narrow mutable roots with suitable permissions

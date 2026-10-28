@@ -18,6 +18,10 @@ Read only the guide for the current task and its relevant upstream references.
 | Select a target; export capabilities; assemble and validate inputs; save a prepared campaign | [Campaign preparation](references/campaign-preparation.md) |
 | Run, inspect, wait, terminate, diagnose interruptions, or locate retained evidence | [Campaign operation](references/campaign-operation.md) |
 
+For incomplete Interceptor evidence during a campaign, use
+[campaign failure handling](references/campaign-operation.md#interceptor-evidence-storage-failures).
+Use Interceptor management for target storage repair and fresh-session setup.
+
 For a combined request, move between guides as the work reaches each phase.
 An inspection or termination request does not require reloading installation,
 target authoring, or scenario-generation instructions.

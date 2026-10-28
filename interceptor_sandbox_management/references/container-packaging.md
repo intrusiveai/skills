@@ -158,7 +158,10 @@ that do not write them.
 Inspect application diagnostics and Interceptor evidence. Application-generated
 evidence files are distinct from Interceptor's own event journals; do not assume
 writing files automatically records their contents as observations or exports.
-Report how any required application artifacts can be inspected or collected,
+Writable agent logs are needed only if the application itself requires them;
+they are not prerequisites for Interceptor collection. Do not add an agent logging
+subsystem or private-ID correlation as an onboarding requirement.
+Report how any explicitly required application artifacts can be inspected or collected,
 including permission limitations. If claiming snapshot support, test restore with
 the target's real state instead of inferring it from successful writes.
 

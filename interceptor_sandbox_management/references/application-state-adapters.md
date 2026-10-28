@@ -134,6 +134,7 @@ command or endpoint is needed.
 | Save exception, lossy JSON, write failure, or size exhaustion | Snapshot failed; do not use a stale file as proof of a successful save. A recoverable rejection permits continued operation |
 | Save timeout or broken protocol with uncertain execution | The application session is unusable; inspect the outcome and use supported lifecycle recovery without replaying actions automatically |
 | Missing, corrupt, incompatible, or rejected restored state | Restored startup fails before readiness; do not substitute a fresh conversation or hand-edit snapshot evidence |
+| Native `evidence_storage_error` or `evidence_incomplete` taint | Further turns and new snapshots are blocked; use [storage failure handling](environment-operation.md#required-evidence-storage-failures), not the recoverable state-save path |
 
 Snapshot waiting/capture uses the quiescence timeout (default five seconds).
 Restored startup uses the existing startup timeout. Diagnose blocked work or

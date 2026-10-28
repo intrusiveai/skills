@@ -123,7 +123,10 @@ workflow and exercise a representative application operation. Check:
   requested/reported model, input count, dimensions, status, latency, usage, and
   body references. Input tokens count once toward the session budget, including
   completed provider calls whose evidence storage fails. Startup calls without a
-  turn ID remain session activity.
+  turn ID remain session activity. Later requests use the same automatic
+  [observation windows](environment-operation.md#interpret-native-observations) as
+  generation. Required capture failures use the shared
+  [storage failure policy](environment-operation.md#required-evidence-storage-failures).
 - Embeddings do not consume generation injections or confirm their delivery, even
   when embedding input contains injected text. Do not interpret an embedding
   exchange as proof that the generation model received an instruction.

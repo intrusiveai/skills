@@ -71,6 +71,11 @@ mechanisms without reading or copying runtime secret values.
    requests, file changes, and model/tool boundaries that can support deterministic
    observations. Associate canaries and oracles with these paths, not a generic
    attack catalog. Distinguish potential injection placement from proof of delivery.
+   Check overlapping invocations and work that continues after an invocation
+   returns. Record the resulting observation limits without automatically disabling
+   supported concurrency or changing target behavior. Native evidence does not
+   require agent-authored logs or correlation with the agent's private IDs; see
+   [observation semantics](environment-operation.md#interpret-native-observations).
 
 ## Map dependencies deliberately
 
