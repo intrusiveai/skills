@@ -1,6 +1,6 @@
 ---
 name: interceptor-sandbox-management
-description: Install, configure, and operate Interceptor Sandbox, including generation and remote embeddings access; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
+description: Install, configure, and operate Interceptor Sandbox, including generation and remote embeddings access; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation and state adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
 ---
 
 # Interceptor Sandbox Management
@@ -27,6 +27,9 @@ For Python HTTPS clients, read [Python CA trust](references/python-ca-trust.md)
 when declaring environments, building wrappers, or diagnosing certificate failures.
 For source-to-image onboarding or filesystem write failures, read
 [container packaging and writable storage](references/container-packaging.md).
+For conversation/session restoration, read
+[application state adapters](references/application-state-adapters.md) when assessing
+snapshot compatibility, adding persistence hooks, or verifying continuation.
 
 For a combined request, move between guides as the work reaches that phase.
 Do not load the blueprint assessment and authoring references for an installation,

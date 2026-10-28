@@ -111,6 +111,9 @@ For adapter qualification, use the version-matched Python/Node examples and the
 client's `--adapter-only` mode as described in [invocation adapters](invocation-adapters.md).
 It also attaches a campaign and stops the target: use a dedicated test session.
 Verify repeated stateful calls, application errors, logs, and orderly cleanup.
+For state restoration, use the separate `--state-snapshots` qualification described
+in [state adapters](application-state-adapters.md#verify-faithful-continuation);
+`--adapter-only` does not establish snapshot support.
 For embeddings targets, exercise document/query embeddings at the phases the
 application uses, together with generation in the same session; follow
 [embeddings verification](remote-embeddings.md#verify-and-troubleshoot).
@@ -167,10 +170,18 @@ fresh session ID and updated binding/revision before further operations. Known
 preflight rejection may leave the original healthy session usable; uncertain
 outcomes or failures after source closure are terminal.
 
-Snapshots save declared logical state, not process memory, network connections,
-or the harness conversation. For a restore test, checkpoint a known state, mutate
-it through a supported operation, restore, and verify the expected state plus
-session lineage. Read [snapshot semantics](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/snapshots-and-restore.md)
+Snapshots save declared logical state, including application context explicitly
+serialized by a [state adapter](application-state-adapters.md), rather than process
+memory, network connections, or the harness conversation. On restored startup,
+configured state hooks run before readiness. The application's logical identity
+can survive while the native sandbox session and binding change.
+
+For full-context restore claims, follow [continuation verification](application-state-adapters.md#verify-faithful-continuation):
+compare the next model request and relevant state with uninterrupted execution,
+verify service/file rollback without replayed actions, and run further turns.
+Use the existing application persistence when sufficient; no additional adapter
+is needed solely because snapshots are requested. Missing or incompatible adapter
+state fails restored startup; a fresh conversation is not a successful restore. Read [snapshot semantics](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/snapshots-and-restore.md)
 only when the saved-state boundary matters.
 
 ## Inspect, stop, and export

@@ -15,6 +15,12 @@ to the requested scope; do not require a full campaign to deliver a draft.
   dependencies, and the installed path does not overlap writable roots or mounts.
   A working-adapter claim includes repeated calls proving state retention, an
   application-error case, and orderly cleanup; see [adapter verification](invocation-adapters.md#verify-and-troubleshoot).
+- For application context snapshots, the state inventory covers messages, tool
+  history, summaries, logical identity, safeguards, and required relationships.
+  Save/restore hooks are packaged with the adapter, concurrency is one, and the
+  dedicated mutable checkpoint path is outside code, seeds, and injection targets.
+  Existing application persistence can satisfy the contract without new hooks;
+  a framework name alone cannot. See [state adapters](application-state-adapters.md).
 - For remote embeddings, verify the selected executable supports the route;
   generation and embeddings have independent host configuration; the application
   uses the local endpoint and packaged SDK/tokenizer dependencies. A working
@@ -63,7 +69,11 @@ For a requested working environment, use
 [environment operation](environment-operation.md) to exercise a legitimate
 application task, its model call, and relevant synthetic dependencies. Include
 a controlled failure case for the boundary under test. For snapshot claims,
-verify mutation and restore, not just checkpoint creation.
+verify mutation and restore, not just checkpoint creation. For full-context claims,
+compare model-request context and relevant application state against uninterrupted
+continuation, verify identity and service/file rollback without replayed actions,
+then exercise further turns and a relevant failure. Record uncovered state rather
+than treating a fresh session or matching answer as successful restoration.
 
 Choose additional tests to match the environment: TLS trust, delegated identity,
 native MCP result delivery, or file/service injection should be exercised when

@@ -40,7 +40,7 @@ and operation contract are real; schema validation cannot establish this.
 | MCP tools | [MCP services](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/mcp-services.md) | Supported methods/results; no forwarding to a real server or arbitrary code in fixtures |
 | Synthetic users and delegated access | [Identity](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/identity.md) | Real application token flow; least required grants; no production identity material |
 | Injection surfaces, sinks, and deterministic checks | [Injections and evaluation](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/injections-and-evaluation.md) | Distinct placement boundaries; bounded creation; no campaign payloads in the Blueprint |
-| Restorable state | [Snapshots](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/snapshots-and-restore.md) | Declared files and managed logical state, not memory or external resources |
+| Restorable state | [State adapters](application-state-adapters.md) and [snapshots](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/snapshots-and-restore.md) | Declared files and managed logical state, including explicitly serialized application context; no process-memory or remote-state capture |
 | Feedback exposure | [Feedback](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/feedback.md) | Declared profiles and selected immutable session profile |
 | Capability handoff | [Operator capabilities](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/operator-capabilities.md) | Native export differs from Operator's public projection |
 
@@ -66,8 +66,11 @@ and operation contract are real; schema validation cannot establish this.
 - Prefer a small deterministic oracle tied to observable effects. A canary's
   declared file location must contain its value. Scope evidence to what the
   selected feedback profile actually exposes.
-- Snapshot configuration needs a defensible quiescence mechanism. Memory,
-  undeclared paths, external services, and open connections are not saved.
+- Snapshot configuration needs a defensible quiescence mechanism. A code state
+  adapter can explicitly serialize application context into a managed file and
+  reconstruct it before readiness. Process memory, undeclared paths, external
+  services, and open connections are not automatically saved. State-enabled code
+  adapters require concurrency one and a dedicated mutable checkpoint path.
 - Both supported Blueprint versions export native capability-manifest/v1alpha3
   in the reviewed source. Do not handwrite a manifest or substitute a raw file
   hash for its native digest. Operator produces its own public projection.

@@ -73,8 +73,11 @@ application:
 
 Mutable roots work even when snapshots are disabled. They are managed session
 state, not automatically discarded scratch volumes. Enabling snapshots requires
-an actual state/flush assessment; filesystem mounts do not capture process memory
-or unsupported external database state. Use the existing stop/export/purge
+an actual state/flush assessment. A [state adapter](application-state-adapters.md)
+can serialize conversation/session data into a managed file, using a dedicated
+checkpoint path outside the application workdir, seeded targets, and injection
+namespaces. Filesystem mounts do not capture process memory or unsupported
+external database state. Use the existing stop/export/purge
 lifecycle; do not add automatic cache deletion as an onboarding prerequisite.
 
 When the application already offers configurable paths, a dedicated data root is

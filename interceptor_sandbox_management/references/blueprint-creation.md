@@ -86,9 +86,13 @@ examples; protected fixture bodies and seed records are not public examples.
   snapshots, and hide image contents; see [storage guidance](container-packaging.md#provide-writable-paths-with-mutable-roots).
   File injection namespaces and their creation limits are separate opt-ins for
   harness-driven mutations, not prerequisites for ordinary application writes.
-- Enable snapshots only when required state survives a restart from the image,
-  seeds, declared files, and managed service state. Specify a real flush/readiness
-  mechanism or justify `quiesce.kind: none` for safely captured state.
+- Enable snapshots only when all required state can be reconstructed from the
+  image, declared files, managed services, and any configured application persistence.
+  For in-memory conversation/session state, follow [state adapters](application-state-adapters.md)
+  to inventory, package, and verify save/restore hooks without requiring a framework
+  checkpointer. Specify a real flush/readiness mechanism or justify `quiesce.kind:
+  none`; that setting still invokes configured state hooks. Do not infer full
+  support from method names or successful checkpoint creation.
 - Add synthetic canaries, bounded attacker sinks, deterministic oracles, and
   feedback/attempt/artifact limits needed by the test objective. Expose useful
   injection surfaces without embedding campaign scenarios or attack payloads.

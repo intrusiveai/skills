@@ -94,6 +94,8 @@ one event loop; Node preserves the method receiver (`this`). Calls are serial by
 default. Python supports `single` input or object-to-keyword expansion with
 `input_mode: kwargs`; Node uses one JSON value. Keep concurrency at one unless the
 Node adapter is explicitly safe for overlapping calls (the supported limit is 32).
+With `code.state`, concurrency must remain one for either language; see
+[application state adapters](application-state-adapters.md).
 Return JSON-compatible values: Python retains its string fallback for other
 values; Node serialization failures fail the turn.
 
@@ -118,13 +120,17 @@ values; Node serialization failures fail the turn.
   pip/npm/downloads. Released wrapper builds require no host Python/Node or Go;
   macOS still requires the complete archive with its matching Linux companion.
 - The installed adapter runs as the unprivileged application user. Readiness
-  means import/initialization succeeded and the invoke method is callable.
+  means import/initialization succeeded and the invoke method is callable. With
+  state hooks, it also requires hook validation and, on restored startup,
+  successful state reconstruction.
   Ordinary application print/console output is separate from response framing
   and is available in the application logs.
 - One application process retains one adapter/session object across turns.
-  Separate sandboxes do not share it. In-memory conversations and open clients
-  are not restored by filesystem snapshots; keep snapshots disabled unless the
-  application has a verified restore contract.
+  Separate sandboxes do not share it. A [state adapter](application-state-adapters.md)
+  can save conversation/session data and reconstruct it in a replacement process,
+  even without a framework checkpointer. Open clients and locks must be recreated.
+  Keep snapshots disabled unless application persistence or the adapter has a
+  verified restore contract covering all required state.
 - An optional `close` method on the initialized object (or module) runs once on
   orderly shutdown, with a two-second bound including async completion. Cleanup
   errors are reported. Forced termination cannot guarantee cleanup.

@@ -62,6 +62,11 @@ mechanisms without reading or copying runtime secret values.
    roots using [container packaging](container-packaging.md); retained caches need
    no special disposable-storage behavior. Check restart behavior and the actual
    flush protocol before enabling snapshots; keep unsupported external state visible.
+   For conversation/session restoration, inventory messages, tool history, summaries,
+   identity, safeguards, and required object relationships using
+   [state adapters](application-state-adapters.md#assess-what-must-survive). Reuse
+   existing persistence or assess an application-specific adapter; a framework
+   name or absent framework checkpointer is not the deciding criterion.
 7. **Observations.** Identify reachable output, managed service mutations, sink
    requests, file changes, and model/tool boundaries that can support deterministic
    observations. Associate canaries and oracles with these paths, not a generic

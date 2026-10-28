@@ -102,7 +102,11 @@ resizing, or regenerating vectors. A reported model can differ from a deployment
 Provider errors preserve bounded bodies, HTTP status, and allowlisted retry headers.
 Interceptor adds no retries; account for the selected SDK's retry behavior and
 timeouts. Evidence storage failures are visible. Host configuration survives managed
-target replacement; application memory and remote provider state are not snapshotted.
+target replacement. An [application state adapter](application-state-adapters.md)
+can explicitly persist required application context, but process memory and remote
+provider state are not captured. Recreate SDK clients during initialization;
+restore cached application data only when included in the state inventory, without
+reissuing old model/tool calls to reconstruct it.
 
 ## Verify and troubleshoot
 
