@@ -57,6 +57,10 @@ A service/namespace reference asserts availability of that scope; it does not
 promise an unstated endpoint, creation permission, field shape, or mutation.
 Concrete operations remain subject to the host's per-attempt checks.
 
+Service endpoint IDs, collection/table policy IDs, and model codec names are
+details of existing capability records, not new reference namespaces. Do not put
+them directly in `required_capability_refs` or manufacture endpoint-level refs.
+
 ## Check delivery information and adapter differences
 
 For an operation needed by the supplied content, inspect its `delivery_status`,
@@ -69,35 +73,39 @@ Interceptor exports may describe services, files, actions, and snapshots, subjec
 to their individual constraints. An action family alone does not establish that
 an arbitrary service or file is selectable.
 
-Direct HTTP/HTTPS exports describe administrator-declared application operations and limited
-feedback. They have no Interceptor action, service, file, or snapshot capabilities,
-and unknown output structure stays unknown. Do not change a user-supplied scenario
+Direct HTTP/HTTPS exports use adapter `http/v1` and source schema
+`operator.dev/http-capabilities/v1alpha1`. They describe administrator-declared
+application operations and limited feedback, with no Interceptor action, service,
+file, or snapshot capabilities. Unknown output structure stays unknown.
+Do not change a user-supplied scenario
 to hide this mismatch; report the unavailable requirement or optional gap.
 See [HTTP targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTP_TARGETS.md)
 only when that adapter is relevant.
 
-## Database-backed scenarios
+## Interpret capability details only when relevant
 
-When the user's scenario involves PostgreSQL, distinguish the requested mechanism:
-`database_response` modifies eligible returned values; `environment_state` changes
-permitted stored records. Bind only the actual action/service references and
-policy limits in the public export. A database service does not imply arbitrary
-SQL, writable fields, record creation, or an HTTP/MCP route. Preserve the export's
-advertised selectors and supported placement types; do not invent a new bundle
-field or reference namespace for a database table.
+Use these fields to check the feasibility of supplied content, not to choose
+scenarios or prescribe how to exercise a capability:
 
-Initial schemas and populated/vector seeds belong in the Interceptor Blueprint,
-not in a bundle as executable database setup. Supporting files remain passive
-content. Describe delivery and outcome criteria separately when the supplied goal
-requires them: rewritten or retrieved content does not itself prove model delivery,
-and model delivery does not prove a committed business mutation. Independent
-committed-state evidence must actually be available under the selected feedback
-policy; administrator-only archives are not additional Harness feedback.
+| Exported detail | Structural meaning |
+| --- | --- |
+| `http-route-set` endpoint `methods` and `paths` | Independent exact allowlists; empty/omitted lists are unrestricted at the capability layer, but do not grant host permission or wildcard selection |
+| `state-collection` endpoint `keys` and `mutable_fields` | Existing record keys and writable top-level fields; delivery schemas describe whole records, not permission to change every field |
+| PostgreSQL service `database_tables` | Policy IDs, ordered keys and writable fields, `allow_create`, and optional `max_records`; no private SQL, credentials, or implied creation permission |
+| `model_response` action `model_codecs` and `placement_root` | Supported target-application model APIs and `response-body` placement root; these are independent of upstream provider and Harness model settings |
 
-Express any user-required baseline/reset expectations using advertised snapshot
-capabilities and campaign policy. Disabling a state injection does not reverse its
-stored effects. These distinctions constrain compatibility and interpretation;
-they do not prescribe database scenarios or expand the user's testing agenda.
+Preserve distinctions in the actual export. A service reference does not grant a
+model-response capability, and an advertised action does not make every service,
+codec, field, or placement eligible. These details add no new ScenarioBundle fields.
+Use [the public mapping contract](https://github.com/intrusiveai/operator_sandbox/blob/main/schemas/CAPABILITY_EXPORT_CONTRACT.md)
+for exact interpretation; missing details must not be guessed.
+
+Initial application/database configuration belongs in the target environment,
+not executable bundle setup. Keep expected delivery, observed response, and
+committed application effects distinct when expressing supplied evidence criteria.
+If the user requires baseline restoration, check advertised snapshot support and
+policy: cleanup of an injection alone does not establish restored state. These
+checks preserve the requested meaning without adding a testing agenda.
 
 ## Required dependencies versus suggestions
 

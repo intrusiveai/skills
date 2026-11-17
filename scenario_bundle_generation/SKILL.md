@@ -46,7 +46,9 @@ Use the [public Operator repository](https://github.com/intrusiveai/operator_san
 [ScenarioBundle contract](https://github.com/intrusiveai/operator_sandbox/blob/main/schemas/SCENARIO_BUNDLE_CONTRACT.md),
 and [closed schema](https://github.com/intrusiveai/operator_sandbox/blob/main/schemas/scenario-bundle.schema.json)
 matching the installed version. Guides use `main` as a discovery link and were
-checked against [revision fabce279](https://github.com/intrusiveai/operator_sandbox/tree/fabce2791b03d6ce7f8b54ad02923541d152f385).
+checked against [revision f44eef3](https://github.com/intrusiveai/operator_sandbox/tree/f44eef366e4c1b66e6c97cf98af73e4aca52e254).
+The bundle format remains `operator.dev/scenario-bundle/v1alpha1`; this is distinct
+from the installed shared-interface version/digest and the Operator release version.
 Local source is valid evidence; generated instructions must not depend on a
 developer-specific filesystem path.
 

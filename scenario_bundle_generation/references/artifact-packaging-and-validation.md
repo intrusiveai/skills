@@ -21,7 +21,8 @@ For each file:
 4. Add `artifact_refs` only to records that use it. All references must resolve.
    A reference essential to understanding a required item must itself be required.
 5. If `schema_id` is supplied, use an actual schema from the installed offline
-   catalog. Otherwise preserve the bytes without inventing a schema identity.
+   catalog; Operator validates the file against it, not merely the identifier.
+   Otherwise preserve the bytes without inventing a schema identity.
 
 The directory must contain exactly the supplied inventory, with no extra notes,
 links, subdirectories, special files, or cross-device entries. Duplicate artifact
@@ -46,10 +47,19 @@ Use strict UTF-8 JSON. Reject duplicate keys, unknown fields, trailing values,
 non-finite numbers, and unsupported versions. Check IDs and references, every
 required field, exact objective coverage, and descriptor consistency.
 
+All schema-declared arrays require unique entries, including narrative lists and
+metadata entries. Objective, scenario, and artifact IDs must also be unique within
+their respective collections even when other fields differ. Do not silently discard
+distinct supplied records to resolve an ID collision; assign distinct IDs and repair
+their references while preserving meaning. Required fields must be present with
+their declared types; an allowed empty array/string is not the same as omission or
+`null`.
+
 For the reviewed contract, important ceilings are:
 
 - 4 MiB encoded bundle; nesting depth at most 32;
-- 100 objectives, 256 scenarios, 4,000 artifact descriptors;
+- 100 objectives, 256 scenarios, 4,000 artifact descriptors; at most 256 entries
+  per ordinary string/reference list and 128 metadata entries per object;
 - local IDs at most 128 ASCII characters, starting with an alphanumeric and using
   letters/digits or `._:-`; public references at most 256 characters;
 - narrative strings at most 4,096 UTF-8 bytes, with top-level context at most

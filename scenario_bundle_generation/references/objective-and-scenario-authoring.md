@@ -25,7 +25,7 @@ that may be empty:
 
 | Field | Structural purpose |
 | --- | --- |
-| `schema_version` | Exact supported ScenarioBundle version |
+| `schema_version` | `operator.dev/scenario-bundle/v1alpha1` in the reviewed contract |
 | `bundle_id` | Descriptive input identifier, not a campaign ID |
 | `producer` | Required descriptive `kind`; optional `name` and `version` |
 | `target_requirements` | Exported target identity and source digest, with optional explicit requirements/exact projection pin |
@@ -36,10 +36,21 @@ that may be empty:
 | `artifacts` | Supporting-file descriptors or an empty array |
 | `coverage` | Every objective ID exactly once and completion guidance |
 
-Optional `context` holds supplied factual background. Optional `metadata` uses
-bounded namespace/key/value entries, not arbitrary fields. `requested_limits`
+Optional `context` is one string holding supplied factual background. Optional
+`metadata` is an array of `{namespace, key, value}` string entries, not an arbitrary
+object. Metadata is supported on the bundle and scenarios, not objective records.
+Put rich supplied background in inventoried supporting artifacts. `requested_limits`
 expresses user constraints using the supported fields; omission uses installed
 defaults. Do not choose campaign budgets as a side effect of authoring.
+
+The only top-level `requested_limits` keys are `attempt_admissions`,
+`active_seconds`, `model_tokens`, `snapshot_creations`, `snapshot_committed_bytes`,
+and `harness`. The optional `harness` object accepts a subset of
+`max_model_turns`, `max_tool_calls`, `max_tool_calls_per_response`,
+`max_invalid_tool_calls`, `max_consecutive_invalid_tool_calls`, `max_read_bytes`,
+and `max_no_progress_turns`. These are requests within installed ceilings, not
+host configuration: do not copy host `limits.max_*`, `operation_timeouts_ms`,
+`size_limits`, provider settings, or target profiles into the bundle.
 
 Use the matching
 [bundle contract](https://github.com/intrusiveai/operator_sandbox/blob/main/schemas/SCENARIO_BUNDLE_CONTRACT.md)
@@ -77,7 +88,7 @@ Every scenario requires the following fields:
 | `priority`, `required` | Intended order and obligation to account for the scenario |
 | `required_capability_refs` | Explicit functional dependencies; an empty list is allowed |
 | `guidance.surfaces` | Supplied descriptions of relevant interaction/content boundaries |
-| `guidance.action_refs` | Optional suggestions using actual public action references |
+| `guidance.action_refs` | Required array of suggestions using public action references; entries do not become mandatory dependencies |
 | `guidance.mutation_dimensions` | Supplied dimensions of variation, if any |
 | `guidance.composition` | Supplied relationships between parts of the scenario, if any |
 | `expected_observations` | What the user expects might be observable |
@@ -94,6 +105,11 @@ interpretable without adding technique advice. The schema permits empty
 Scenario priorities are required. Preserve the supplied ordering; where no ordering
 is intended, equal priorities are valid. Disclose any formatting convention used.
 Optional `artifact_refs` and `metadata` follow their published schemas.
+
+The schema has no scenario `steps`, `payload`, `expected_result`, or execution-plan
+field. Map supplied descriptions to the supported guidance, observations, criteria,
+and stopping fields; use supporting artifacts for detailed source material. Preserve
+the supplied meaning without inventing extra keys or converting prose into commands.
 
 A required scenario must be accounted for, not executed as a fixed payload sequence.
 Required fields do not make every descriptive suggestion a mandatory capability.
