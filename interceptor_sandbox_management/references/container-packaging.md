@@ -86,21 +86,13 @@ namespaces. Filesystem mounts do not capture process memory or unsupported
 external database state. Use the existing stop/export/purge
 lifecycle; do not add automatic cache deletion as an onboarding prerequisite.
 
-When the application already offers configurable paths, a dedicated data root is
-also convenient. This partial example uses the support agent's existing setting;
-merge it with the real launch command, interface, and other required fields:
-
-```yaml
-application:
-  launch:
-    environment:
-      SUPPORT_EVIDENCE_PATH: /state/support/evidence
-      PYTHONDONTWRITEBYTECODE: '1'
-  persistence:
-    mutable_roots: [/state/support]
-    snapshot_capable: false
-    quiesce: {kind: none}
-```
+For a concrete native-logging example, see the
+[customer-support invocation adapter](https://docs.intrusive.ai/pages/guides/customer-support-environment.html#add-the-invocation-adapter-and-native-logging)
+and its environment blueprint. The recipe declares `/state/support` as a mutable
+root. Its adapter creates `/state/support/logs`, attaches a Python `FileHandler`
+to the `support_agent` logger, and flushes it after each invocation. It calls the
+agent as a library and configures logging in the adapter. Follow the target's
+actual invocation path when adapting this example.
 
 Distinguish write permission from ownership. Interceptor runs the application as
 UID 20000 with its configured application group (currently the host user's GID),
