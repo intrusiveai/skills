@@ -67,6 +67,37 @@ Keep the standard foreground process model. The default bridge is `spool`;
 `unix` is for supported native Linux hosts. Do not expose the local API through
 a tunnel or public listener as part of ordinary installation.
 
+The current `run` configuration is split between these controls:
+
+| Control | Configuration and default |
+| --- | --- |
+| Generation | `--model-provider` defaults to `openai-chat`; repeat `--allow-model` for exact IDs; at least one is required, even when embeddings are configured |
+| HTTP generation origin | `--provider-base-url`, otherwise `INTERCEPTOR_PROVIDER_BASE_URL`; use the selected adapter's base URL |
+| Generation authentication | `--provider-auth`, `--model-credential-id` / `--credential-config`, or explicit `--model-api-key-env`; AWS uses `--aws-region` / `--aws-profile`; Anthropic supports `--provider-api-version` |
+| Feedback | `--feedback-profile`, default `black-box`; must be declared by the Blueprint and stays immutable for the session |
+| Bridge | `--bridge-transport spool` by default; `--spool-max-bytes` overrides `INTERCEPTOR_SPOOL_MAX_BYTES`, default 536870912 (512 MiB) |
+| Native evidence archive | `--evidence-max-bytes` overrides `INTERCEPTOR_EVIDENCE_MAX_BYTES`, default 4294967296 (4 GiB) per archive |
+| Embeddings | Separate `--embeddings-*` and repeatable `--allow-embedding-model`; see [provider-specific settings](remote-embeddings.md) |
+| External HTTPS | `--https-seam-config` for host bindings; `--credential-config` supplies their credential references; see [HTTPS forwarding](https-egress.md) |
+
+Use positive decimal byte limits. Command flags take precedence over the matching
+environment variables. Spool capacity, native archive size, and available disk
+space are different constraints. Operator additionally applies its own spool and
+evidence ceilings; the smaller admitted evidence-archive bound wins. Increasing
+an archive limit cannot recreate evidence lost during capture.
+
+Blueprint `application.interface.startup_timeout_ms` and `turn_timeout_ms` are
+required positive deadlines capped at 600000 ms. The turn limit also bounds model
+calls. Blueprint resource/session limits remain separate from host transport
+storage and Operator's complete-attempt/request waits. Coordinate all of them
+when diagnosing timeouts; a longer allowance in one layer does not extend another.
+
+The API listener remains fixed at `http://127.0.0.1:8080`; this checkout has no
+listener address or server TLS flags. Operator's new optional client endpoint
+configuration does not change that. Operator also requires the exact version and
+document hash returned by `/v1/contract-version`; select compatible component
+releases instead of treating matching product labels as sufficient.
+
 ## Select model access
 
 Read only the relevant pairing in
@@ -78,6 +109,7 @@ The application's native API determines the compatible host adapter:
 | OpenAI Chat Completions | `openai-chat`, or matching Azure/LiteLLM route |
 | OpenAI Responses | `openai-responses`, or matching Azure/LiteLLM route |
 | OpenAI-compatible embeddings | Independent `--embeddings-provider openai-compatible`; see [remote embeddings](remote-embeddings.md) |
+| Amazon Titan Text Embeddings V2 | Independent `--embeddings-provider bedrock-titan` with its own AWS authentication, region/profile, and model allowlist |
 | Anthropic Messages | `anthropic-messages` |
 | Gemini generateContent | `gemini-api` or `vertex-gemini` |
 | Bedrock Converse | `bedrock-converse` |
@@ -105,7 +137,8 @@ do not provision a new cloud service solely to impose that preference.
 - For stored keys, read
   [credential stores](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/credential-stores.md).
   Use a private profiles/credentials file with `--model-credential-id` and
-  `--credential-config`. Supported stores are AWS, Azure, Google, and Vault KV v2.
+  `--credential-config`. Supported stores are AWS, Azure, Google, Vault KV v2,
+  and 1Password.
 - For cloud identity, profiles, CLI caches, or GitHub OIDC, read
   [host authentication](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/cloud-authentication.md).
   Match the selector to the actual bootstrap identity. Model authentication and
@@ -120,6 +153,21 @@ do not provision a new cloud service solely to impose that preference.
 
 Never print secret values or put them in CLI arguments, service definitions,
 Blueprints, assessment notes, or container environment variables.
+
+For [1Password](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/ONEPASSWORD.md),
+select backend `onepassword`, an `op://vault/item/[section/]field` reference, and
+allowed locator prefixes ending at `/` component boundaries. Desktop authentication
+is `onepassword-desktop` with `onepassword_account`, a signed-in desktop app, and
+its SDK integration enabled. Automation uses `onepassword-service-account` with
+host `OP_SERVICE_ACCOUNT_TOKEN` and no account field. The embedded SDK needs no
+`op` CLI; configure the actual execution account's identity.
+
+Use `interceptor.dev/secret-store-profile/v1alpha1` and
+`interceptor.dev/host-credential-ref/v1alpha1` in Interceptor's file. The reviewed
+1Password prose contains Operator-namespaced example versions; follow the
+[Interceptor credential format](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/credential-stores.md)
+and validator instead. Generation, embeddings, and seam bindings explicitly select
+their own references; one configured credential does not authorize all three.
 
 For a requested live store-access check, use `interceptor credentials check`
 with `--live`, the selected credential/config, a probe ID, and a new private

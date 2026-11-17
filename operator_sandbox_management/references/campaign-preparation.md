@@ -50,10 +50,28 @@ it. Operator writes the public file and its companion; preserve both unchanged.
 Never handwrite a capability digest or use a raw file hash in place of the native
 manifest's digest.
 
-Before live start, the intended Interceptor instance must be running and ready on
-the same trusted host at `127.0.0.1:8080`. There is no integration token or remote
-gateway. Do not attach a probe campaign: Interceptor binds to its first campaign
-for the process lifetime. An offline export does not establish live readiness.
+Before live start, the intended Interceptor instance must be running and ready.
+The default client endpoint is `http://127.0.0.1:8080`. Operator now accepts an
+optional `interceptor` object in the target profile: `protocol` (`http` or `https`),
+`address` (hostname or unbracketed IP), and `port` (1–65535) are all required when
+the object is present. Optional `ca_certificates_pem` supplies extra HTTPS trust
+(at most 32 KiB); it is invalid with HTTP. There is no integration authentication,
+proxy support, or redirect following. See the
+[client endpoint contract](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/INTERCEPTOR_CLIENT.md).
+
+These are **Operator client settings**, not Interceptor listener settings. The
+reviewed Interceptor still starts a fixed same-host HTTP API at `127.0.0.1:8080`;
+its CLI exposes no remote listener/TLS flags. Keep that endpoint for this paired
+workflow. Do not invent a gateway to make the client's optional settings usable.
+Operator checks the approved OpenAPI version/hash before attachment and saves
+the endpoint for cleanup/recovery. Do not attach a probe campaign: Interceptor
+binds to its first campaign for the process lifetime. An offline export does not
+establish live readiness or contract compatibility.
+
+Set the profile's `operation_timeout_ms` within the host's
+`target.max_operation_timeout_ms`. It covers setup, invocation, and observations,
+not just the target turn. Align it with Blueprint deadlines and Operator request
+waits; native transport and remaining campaign deadlines can shorten it further.
 
 ### PostgreSQL-backed Interceptor targets
 
@@ -72,12 +90,35 @@ preserve the generated companion. Use the projection's actual identifiers and
 route vocabulary; do not relabel a database response as an HTTP response or edit
 exported JSON to make policy validation pass.
 
-### HTTPS target
+### Target model-response permissions
 
-Read [HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTPS_TARGETS.md)
-and adapt the [profile template](https://github.com/intrusiveai/operator_sandbox/blob/main/release/templates/https-target-profile.json).
+For an advertised `action:injection:model_response`, explicit `scopes.routes`
+permission selects surface `model_response`, `target.model_codec`, scopes,
+placements, and pointers. Use the application's advertised codec, independently
+of its upstream provider. See
+[model-response configuration](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/MODEL_RESPONSE_INJECTION.md).
+Bundle requirements cannot broaden these permissions. This surface affects the
+target application's non-streaming generation response, not Harness's model or
+embeddings. An applied change and a response write are separate from application
+acceptance or execution; delivery details also depend on the feedback ceiling.
+
+### HTTP or HTTPS target
+
+Read [HTTP targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTP_TARGETS.md)
+and adapt the [profile template](https://github.com/intrusiveai/operator_sandbox/blob/main/release/templates/http-target-profile.json).
 The private mapping fixes destination, request placement, response selection,
 authentication, network policy, and byte/time limits.
+
+Both schemes use adapter `http/v1`, profile field `http`, mapping version
+`operator.dev/http-mapping/v1alpha1`, and source capability version
+`operator.dev/http-capabilities/v1alpha1`. Legacy `https/v1`, `https` mappings, and
+HTTPS-prefixed schema identifiers are rejected. Regenerate exports and create new
+submissions; do not rewrite retained campaigns. The timeout operation is `http.invoke`.
+
+The fixed origin explicitly selects `http://` or `https://`; there is no automatic
+TLS upgrade. `ca_certificates_pem` extends ordinary trust for HTTPS and is rejected
+for HTTP. Declare 1–64 POST/PUT/PATCH operations and bound the profile's complete
+request timeout to at most 30000 ms, even if the global target ceiling is larger.
 
 Use a host credential ID for authenticated mappings, not literal secrets.
 Private or loopback destinations require explicit permitted CIDRs; do not disable
@@ -93,9 +134,9 @@ operatorctl capabilities export --config /absolute/private/config.yaml \
 ```
 
 This is offline and does not contact the application. Do not supply `--native`
-for HTTPS. HTTPS targets support their declared application operations and bounded
+for a direct HTTP/HTTPS target. These targets support declared operations and bounded
 feedback, not Interceptor injections, snapshots, restore, native oracles, or target
-stop. Do not represent an HTTPS response as evidence of remote cleanup/reset.
+stop. Do not represent an HTTP response as evidence of remote cleanup/reset.
 
 ## Check the bundle and supporting files
 

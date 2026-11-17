@@ -19,7 +19,9 @@ symlinks; hard links and unsupported file types are also rejected.
 Use an exact application image digest, explicit launch argv and absolute workdir,
 literal environment values, one matching interface block, and intended operations.
 Host-variable interpolation is not supported. `MODEL_BASE_URL` must be HTTP
-loopback; other base URLs must resolve within the declared simulated world.
+loopback; other base URLs must resolve within the declared simulated world or an
+explicitly declared [HTTPS seam](https-egress.md). A seam contacts a real host-bound
+destination and is not a simulated service.
 
 Read [application integration](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/application-integration.md)
 and [application interfaces](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/application-interfaces.md)
@@ -36,6 +38,7 @@ and operation contract are real; schema validation cannot establish this.
 | Managed PostgreSQL and pgvector | [Database configuration and operation](postgresql.md) | Ordered schema/populated seeds, verified driver TLS, synthetic roles, bounded table policies and committed-state oracles |
 | Native model endpoint | [Model providers](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/model-providers.md) | Like-for-like API, supported non-streaming subset, synthetic SDK credentials |
 | DNS, HTTP/TLS, fixture and stateful services | [Blueprint field reference](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/environment-blueprint.md) | Exact local hostnames/routing; unknown requests fail with coverage gaps |
+| Approved external HTTPS services | [HTTPS forwarding](https-egress.md) | Declared DNS/TLS seam; separate host origin/authentication; no remote-state rollback or campaign evidence from diagnostics |
 | Target image and writable evidence/cache directories | [Container packaging](container-packaging.md) | Explicit launch configuration; narrow mutable roots; seed initial contents deliberately; verify application permissions |
 | Python Certifi-backed HTTPS | [Python CA trust](python-ca-trust.md) | Absolute image interpreter paths in `network.tls.python_environments`; TLS enabled with `auto`; preserve certificate verification |
 | MCP tools | [MCP services](https://github.com/intrusiveai/interceptor_sandbox/blob/main/docs/mcp-services.md) | Supported methods/results; no forwarding to a real server or arbitrary code in fixtures |
@@ -62,7 +65,7 @@ and operation contract are real; schema validation cannot establish this.
 - Use a static HTTP sink for capture-only behavior; dynamic responses are an
   intentional bounded injection surface. Destination, status, headers, and request
   allowlists remain sealed.
-- Synthetic credentials name a local accepting service or `model-proxy`.
+- Synthetic credentials name a local accepting service, declared HTTPS seam, or `model-proxy`.
   Credential-like launch variables need matching declarations. Keep host model
   keys, cloud identities, secret-store locators, scenarios, and campaign budgets
   outside the Blueprint.

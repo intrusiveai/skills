@@ -10,9 +10,10 @@ provision a database, migrate a corpus, or install a local embedding model.
 ## Check the selected executable
 
 This guide describes the implementation verified at
-[5b255f9](https://github.com/intrusiveai/interceptor_sandbox/tree/5b255f904b0f4bf2026ac20b06e282143e098807).
-Use its [provider documentation](https://github.com/intrusiveai/interceptor_sandbox/blob/5b255f904b0f4bf2026ac20b06e282143e098807/docs/model-providers.md#remote-embeddings)
-and [executable example](https://github.com/intrusiveai/interceptor_sandbox/tree/5b255f904b0f4bf2026ac20b06e282143e098807/examples/remote-embeddings),
+[9a90a892](https://github.com/intrusiveai/interceptor_sandbox/tree/9a90a8922245c4ab2c36aadd17d9b83d460378fa).
+Use its [provider documentation](https://github.com/intrusiveai/interceptor_sandbox/blob/9a90a8922245c4ab2c36aadd17d9b83d460378fa/docs/model-providers.md#remote-embeddings),
+[OpenAI-compatible example](https://github.com/intrusiveai/interceptor_sandbox/tree/9a90a8922245c4ab2c36aadd17d9b83d460378fa/examples/remote-embeddings),
+and [Titan example](https://github.com/intrusiveai/interceptor_sandbox/tree/9a90a8922245c4ab2c36aadd17d9b83d460378fa/examples/titan-embeddings),
 or the equivalents for the selected release. Check `interceptor version`, the
 archive's `release.json` source revision, and matching CLI options/implementation.
 A rolling `0.1.3` candidate version or an existing candidate branch does not prove
@@ -23,7 +24,9 @@ upgrade choice rather than silently selecting another release.
 
 Keep the existing generation provider, authentication, and model allowlist. Add the
 optional embeddings group only when the application uses the supported remote API.
-For example, extend the normal `interceptor run` command with:
+Select `openai-compatible` for the OpenAI embeddings API or `bedrock-titan` for
+native Titan InvokeModel. They are separate protocols, not interchangeable endpoints.
+For OpenAI-compatible access, extend the normal `interceptor run` command with:
 
 ```sh
 --embeddings-provider openai-compatible \
@@ -40,7 +43,7 @@ Generation's `--allow-model`, base URL, and credentials are never inherited. The
 two groups may explicitly select the same endpoint/key, or use different providers.
 Generation workload identity can coexist with a separately stored embeddings key.
 
-Embeddings authentication choices:
+OpenAI-compatible embeddings authentication choices:
 
 - `secret-store`: supply both embeddings credential flags. They use the existing
   host credential-store format and audited resolver, including AWS Secrets Manager.
@@ -58,16 +61,46 @@ Keep real keys on the host, out of Blueprints, adapters, containers, logs, and c
 arguments. Reuse existing access authorization; configuring a client is not evidence
 of a successful live provider call.
 
+### Native Titan access
+
+For Titan Text Embeddings V2, retain the generation options and add:
+
+```sh
+--embeddings-provider bedrock-titan \
+--embeddings-auth aws-profile \
+--embeddings-aws-profile embeddings \
+--embeddings-aws-region us-west-2 \
+--allow-embedding-model amazon.titan-embed-text-v2:0
+```
+
+Choose the intended region/profile. Authentication must explicitly select
+`workload-identity`, `aws-profile`, or `aws-environment`; the profile flag is required
+only for `aws-profile`. These settings do not inherit generation's AWS options.
+The host identity needs `bedrock:InvokeModel` for the selected regional model.
+HTTP base URLs, API keys, secret-store bearer credentials, and `none` are invalid
+for this provider. AWS signing/refresh occur on the host.
+
+The host may explicitly set `AWS_ENDPOINT_URL_BEDROCK_RUNTIME` for a fixed endpoint;
+it requires HTTPS except for HTTP on a loopback IP, and refuses redirects. This is
+independent of the same-named variable in the application Blueprint.
+
 ## Configure the application and its image
 
-Trace how the application actually constructs both SDK clients. Point the embeddings
-client at `http://127.0.0.1:18080/v1`; retain the generation protocol's appropriate
+Trace how the application actually constructs both SDK clients. Point an OpenAI
+embeddings client at `http://127.0.0.1:18080/v1`; retain the generation protocol's appropriate
 local endpoint (OpenAI-compatible generation can use the same base). Configure each
 model name and declared synthetic SDK credentials (`accepted_by: model-proxy`). There is no universal embeddings
 environment variable: set constructor options or variables the application reads.
 A separately supplied invocation adapter can apply these settings when its normal
 application API supports that. An initializer can embed documents before readiness;
 later invocations can embed queries. Set bounded SDK and startup/turn timeouts.
+
+For Titan/Boto3, use `endpoint_url` or application
+`AWS_ENDPOINT_URL_BEDROCK_RUNTIME=http://127.0.0.1:18080` **without `/v1`**, plus the
+client region and declared synthetic AWS credentials accepted by `model-proxy`.
+Do not copy the host's AWS credentials into that environment. Use the actual
+application's configuration hooks; the endpoint variable alone does not configure
+every SDK. The Titan example includes Boto3 and LangChain configuration.
 
 The target image supplies SDK dependencies. LangChain's embeddings client may
 submit token arrays and request base64 vectors; these do not require a local
@@ -85,12 +118,12 @@ work separate from configuring Interceptor's remote model transport.
 
 ## Supported requests and limits
 
-The supported operation is exactly `POST /v1/embeddings`, with `model`, `input`,
+The OpenAI-compatible operation is exactly `POST /v1/embeddings`, with `model`, `input`,
 optional positive integer `dimensions`, `encoding_format` (`float` or `base64`),
 and `user`. Input can be nonempty text, a text batch, integer tokens, or a batch
 of integer-token arrays. Query overrides, unsupported fields, malformed shapes,
-and unauthorized models fail before provider contact. Native Bedrock/Gemini
-embedding APIs, multimodal inputs, and asynchronous provider batch jobs are outside
+and unauthorized models fail before provider contact. Native Titan has its own
+route below; Gemini embeddings, multimodal inputs, and asynchronous provider batch jobs are outside
 this route; an OpenAI-compatible endpoint must actually match its contract.
 
 Use at most **128 inputs** per request and **4 MiB** per request/response body,
@@ -100,6 +133,15 @@ base64 expansion inside the existing 32 MiB bridge frame; do not raise global
 limits to hide oversized batches. Provider-specific token limits still apply.
 Vector values, dimensions, and index associations are checked without substituting,
 resizing, or regenerating vectors. A reported model can differ from a deployment alias.
+
+Titan supports only `amazon.titan-embed-text-v2:0` through
+`POST /model/{modelId}/invoke`, with one `inputText` string per call. SDK document
+batches therefore make multiple calls. Dimensions are 256, 512, or 1024 (default);
+provider `normalize` defaults to true. `embeddingTypes` accepts float, binary, or
+both; binary-only responses have no top-level `embedding` field. Preserve native
+`embeddingsByType` representations and avoid unintended client renormalization.
+Input is bounded to 50000 characters and the provider's 8192-token limit. The same
+byte limits apply. Other InvokeModel models and streaming remain unsupported.
 
 Provider errors preserve bounded bodies, HTTP status, and allowlisted retry headers.
 Interceptor adds no retries; account for the selected SDK's retry behavior and
@@ -121,7 +163,7 @@ workflow and exercise a representative application operation. Check:
 - Actual SDK decoding produces the expected vector count, dimensions, input
   associations, and usable values. Exercise a disallowed model and a controlled
   provider error or timeout; rejected models must not reach the upstream.
-- Protected `model_exchange` evidence uses codec `openai_embeddings`, records
+- Protected `model_exchange` evidence records the selected embeddings codec,
   requested/reported model, input count, dimensions, status, latency, usage, and
   body references. Input tokens count once toward the session budget, including
   completed provider calls whose evidence storage fails. Startup calls without a
@@ -129,11 +171,14 @@ workflow and exercise a representative application operation. Check:
   [observation windows](environment-operation.md#interpret-native-observations) as
   generation. Required capture failures use the shared
   [storage failure policy](environment-operation.md#required-evidence-storage-failures).
+- For Titan, verify native AWS error handling, requested representations, and
+  provider/client normalization. Input-token usage counts once even when both
+  representations are returned; protected evidence retains AWS request identifiers.
 - Embeddings do not consume generation injections or confirm their delivery, even
   when embedding input contains injected text. Do not interpret an embedding
   exchange as proof that the generation model received an instruction.
 
-For archive qualification, use the pinned example's full
+For OpenAI-compatible archive qualification, use the pinned example's full
 `scripts/qualify_release.py --adapter-language python --embeddings` command with
 the required archive, source/version, image, client, and fresh output directory.
 It exercises pinned OpenAI/LangChain SDKs against separate deterministic host

@@ -121,7 +121,7 @@ and import are separate explicitly requested workflows; see
 [late evidence](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/LATE_EVIDENCE.md)
 and [evidence import](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/EVIDENCE_IMPORT.md).
 
-For [HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTPS_TARGETS.md),
+For [direct HTTP/HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTP_TARGETS.md),
 state `declared-observer` assurance. Selected responses do not prove remote side
 effects, native oracle results, reset, or remote closure. Failure after possible
 transmission can leave effects unknown.

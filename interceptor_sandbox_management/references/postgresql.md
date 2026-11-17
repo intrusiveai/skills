@@ -104,6 +104,18 @@ reported limit before increasing it. Storage monitoring permits brief overshoot;
 it is not an exact filesystem quota. Oversized results are failures, not successful
 truncated answers. Keep application roles limited to the required grants.
 
+Current `services[].postgresql` defaults and accepted bounds are:
+
+| Setting | Default | Range |
+| --- | --- | --- |
+| `max_connections` | 16 | 1–128 |
+| `query_timeout_ms` | 30000 | 100–120000 |
+| `max_result_bytes` | 8388608 (8 MiB) | 1024–67108864 |
+| `max_storage_bytes` | 268435456 (256 MiB) | 33554432–10737418240 |
+
+The reviewed source packages PostgreSQL 18.6 and pgvector 0.8.7. These are wrapper
+build inputs, not Blueprint switches for choosing an arbitrary installed engine.
+
 ## Distinguish the injection boundaries
 
 | Intent | Native mechanism | Meaning |

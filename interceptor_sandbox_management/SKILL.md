@@ -34,6 +34,9 @@ snapshot compatibility, adding persistence hooks, or verifying continuation.
 For PostgreSQL/pgvector dependencies, database injections, or database restore,
 read [managed PostgreSQL](references/postgresql.md). It covers populated seeds,
 driver-specific TLS, committed-state checks, and the wrapper-managed engine.
+For approved external HTTPS services such as tracing or guardrails, read
+[HTTPS forwarding](references/https-egress.md) for Blueprint declarations, host
+bindings, credentials, and diagnostics.
 
 For native turn attribution or incomplete capture, read the environment guide's
 [observation semantics](references/environment-operation.md#interpret-native-observations)
@@ -60,12 +63,10 @@ checkout is valid evidence, but generated instructions must not require a
 developer-specific source path. Check `interceptor version` and `interceptor help`
 rather than assuming a checkout's existing binary matches its source.
 
-The baseline guides were reconciled with
-[source revision b93fd775](https://github.com/intrusiveai/interceptor_sandbox/tree/b93fd77545223909ff331c74516473e2986a0c0b).
-The adapter guidance was checked against
-[source revision 979458c](https://github.com/intrusiveai/interceptor_sandbox/tree/979458c256455b3ecae071570e9e0c4a18fae784).
-The embeddings guidance is pinned to its verified implementation in
-[remote embeddings](references/remote-embeddings.md#check-the-selected-executable).
+The configuration guides were reconciled with
+[source revision 9a90a892](https://github.com/intrusiveai/interceptor_sandbox/tree/9a90a8922245c4ab2c36aadd17d9b83d460378fa).
+Feature-specific references retain their implementation/qualification provenance;
+that is separate from product versions and the OpenAPI identity approved by Operator.
 Confirm the selected executable contains the required functionality; a rolling
 candidate version alone is not evidence that the change is included.
 Prefer matching implementation and executable tests when prose conflicts, and
@@ -75,6 +76,8 @@ state the discrepancy. Do not silently combine incompatible versions.
 
 - Keep real provider credentials and host authentication outside Blueprints and
   containers. Environment data and application-facing credentials are synthetic.
+- Declared HTTPS seams contact configured external services through the host;
+  those services and their side effects are real and are not restored with a snapshot.
 - Preserve the application's normal invocation and model protocol. Report
   unsupported dependencies instead of inventing fidelity or weakening containment.
 - Current integration uses one foreground Interceptor process and its fixed

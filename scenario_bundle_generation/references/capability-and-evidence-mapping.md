@@ -69,11 +69,11 @@ Interceptor exports may describe services, files, actions, and snapshots, subjec
 to their individual constraints. An action family alone does not establish that
 an arbitrary service or file is selectable.
 
-HTTPS exports describe administrator-declared application operations and limited
+Direct HTTP/HTTPS exports describe administrator-declared application operations and limited
 feedback. They have no Interceptor action, service, file, or snapshot capabilities,
 and unknown output structure stays unknown. Do not change a user-supplied scenario
 to hide this mismatch; report the unavailable requirement or optional gap.
-See [HTTPS targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTPS_TARGETS.md)
+See [HTTP targets](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/HTTP_TARGETS.md)
 only when that adapter is relevant.
 
 ## Database-backed scenarios

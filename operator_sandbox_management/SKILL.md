@@ -1,6 +1,6 @@
 ---
 name: operator-sandbox-management
-description: Install and configure Operator Sandbox and its compatible Attack Harness; prepare target profiles, capability exports, and campaign inputs; start, inspect, and terminate campaigns; retain evidence for reporting. Use for Interceptor or configured HTTPS targets. Interceptor environment management, scenario bundle authoring, and results report generation have separate skills.
+description: Install and configure Operator Sandbox and its compatible Attack Harness; prepare target profiles, capability exports, and campaign inputs; start, inspect, and terminate campaigns; retain evidence for reporting. Use for Interceptor or configured HTTP/HTTPS targets. Interceptor environment management, scenario bundle authoring, and results report generation have separate skills.
 ---
 
 # Operator Sandbox Management
@@ -41,10 +41,11 @@ the selected release or commit. Local checkouts are valid evidence, but generate
 instructions must not depend on a particular developer's filesystem layout.
 
 These guides were reconciled with
-[Operator revision fabce279](https://github.com/intrusiveai/operator_sandbox/tree/fabce2791b03d6ce7f8b54ad02923541d152f385)
-and [Harness revision e75a051c](https://github.com/intrusiveai/attack_harness/tree/e75a051c024a436646d5651265d9a983d37bbf81).
+[Operator revision f44eef3](https://github.com/intrusiveai/operator_sandbox/tree/f44eef366e4c1b66e6c97cf98af73e4aca52e254)
+and [Harness revision 4311f0f](https://github.com/intrusiveai/attack_harness/tree/4311f0fa9f3ebf1ebf7756cedf1211ab03c93d6e).
 When prose conflicts with matching implementation and executable tests, follow
-the latter and state the discrepancy. Do not mix incompatible package versions.
+the latter and state the discrepancy. Compatibility uses approved interface versions
+and exact document hashes, not matching product versions or source commits.
 
 ## Shared boundaries
 

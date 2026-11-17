@@ -140,7 +140,7 @@ context cannot redirect termination.
 Termination stops the exact Harness container and records the outcome. It does
 not by itself prove container removal, injection cleanup, Interceptor target stop,
 or complete evidence. Worker finalization records those independently; target stop
-depends on the original profile's opt-in. HTTPS has no native target-stop operation.
+depends on the original profile's opt-in. Direct HTTP/HTTPS has no native target-stop operation.
 Read [termination](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/DOCKER_TERMINATION.md)
 when stop or recording remains unconfirmed.
 
@@ -153,6 +153,14 @@ Use the reported stage to choose the narrow fix:
 - target/profile/attachment failure: check the chosen target and original binding;
 - model failure: check the recorded provider status/category, codec/options, model,
   and selected authentication without printing raw errors or secrets;
+- deadline/size failure: compare the frozen operation waits and size limits with
+  target/Blueprint deadlines and remaining campaign budget; changing the current
+  host configuration cannot alter a saved campaign;
+- early finalization or context exhaustion: inspect local prompt/completion
+  allowances, `context_warning_percent`, remaining model tokens/calls, and the
+  finalization reservation described in [setup](setup-and-configuration.md).
+  A selected scenario that cannot fit its full context is not silently truncated;
+  selection counts alone do not prove scenario execution or coverage;
 - invalid-call or conclusion failure: inspect the reported field/rule and matching
   Harness/contract versions; do not fabricate receipts or weaken validators;
 - Interceptor `evidence_storage_error` or `evidence_incomplete`: follow
