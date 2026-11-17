@@ -28,7 +28,7 @@ sorted JSON is not a substitute for JCS canonicalization.
 | `export.json` | Final portable-export marker and copied-file inventory, including generation and verified native archives |
 | `generation.json` | Derived file inventory; its canonical digest identifies the native generation |
 | `execution-bundle.json` | RunManifest, verified journal prefix, ordered event parts, visibility and claims authority |
-| `result-manifest.json` | Independent execution/cleanup facts, attempts, coverage, usage, claims, and gaps |
+| `result-manifest.json` | Independent execution/cleanup facts, attempts, coverage, usage, claims, gaps, and optional failure/context/cleanup-resolution records |
 | `report.json`, `report.md` | Native summary bound to the result manifest; a starting point, not the full scenario narrative |
 | `target-evidence-set.json` | Selected native session lineage, collection outcomes, and archive records |
 | `input/scenario-bundle.json` | Accepted scenario/objective definitions and supplied context |
@@ -78,6 +78,52 @@ accepted finish, complete archives, and claimed success do not demonstrate explo
 Preserve native `oracle_verdict: unknown`. Scoped oracle observations may support
 a separately explained, narrow conclusion. Injection arming is not observed delivery.
 
+Scenario selection, reading, or inclusion in a model conversation does not establish
+dispatched coverage. Retained checkpoints and progress summaries remain Harness
+context/claims; use the accepted bundle and host attempt provenance for counts.
+
+## Interpret operational limitations without diagnosing them
+
+Read operational records only far enough to establish whether the scenario was
+exercised, which observations are trustworthy, and what remains unknown. These
+interpretation rules prevent false security conclusions; they are not a request
+to reproduce diagnostics in the HTML.
+
+- Use a recorded `failure_trigger` for a brief known stopping reason when relevant.
+  Without it, do not invent causal order or promote recovered errors to the cause.
+- `model_failures` concerns Attack Harness's model requests. A target-turn error
+  does not establish failure of the application's own provider. A timeout or lost
+  result does not prove that the target did no work.
+- A budget reservation shortfall can stop execution while tokens remain. Describe
+  the resulting unassessed scope; do not call this a provider quota rejection or
+  turn the report into a token-accounting analysis.
+- Later verified archive availability can improve the available evidence without
+  proving target stop, injection deletion, or ownership closure. Keep earlier
+  uncertainty and later facts distinct when they affect the security assessment.
+- Operational errors alone neither support nor refute an application-security
+  hypothesis. A failure caused by the application under the scenario's conditions
+  may be relevant evidence, but its security significance still needs justification.
+
+Retain native documents unchanged and link the supporting record for a material
+limitation. Missing private response bytes remain unavailable even when a digest
+exists. Use the [debugging handoff](report-content.md#operational-limitations-and-debugging-handoff)
+for failure tracing, detailed accounting, and cleanup reconciliation. The matching
+[native reporting contract](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/REPORTING.md)
+defines those source fields; its diagnostic detail is not a checklist of content
+for the authored security report.
+
+## Interpret target model-response evidence
+
+For retained `model_response` observations, distinguish the provider's original
+response from the separately retained delivered response. `applied` establishes
+mutation; `response_written` establishes writing to the application; `write_failed`
+does not establish receipt. None alone proves SDK acceptance, tool execution, or
+the scenario's outcome. Use permitted target/oracle observations for those claims.
+Native usage and model-output oracles refer to the original response. These are
+target-application exchanges, not Harness model responses; embeddings do not prove
+generation delivery. Preserve feedback restrictions and cite the appropriate
+original/delivered reference rather than treating them as interchangeable.
+
 ## Interpret native database evidence
 
 Keep requested SQL and parameters, original returned rows, rewritten rows,
@@ -126,15 +172,15 @@ state `declared-observer` assurance. Selected responses do not prove remote side
 effects, native oracle results, reset, or remote closure. Failure after possible
 transmission can leave effects unknown.
 
-Report execution, accepted finish, Harness exit, container cleanup, target closure,
-injection cleanup, target stop, and reporting status independently where relevant.
-Historical termination is not proof of current container removal. Corrected early
-rejections need not make a later accepted completion a failure; preserve terminal
-workflow/model diagnostics and the recorded outcome.
+Where execution or cleanup affects assessment validity or leaves a material
+remaining condition, state the relevant fact and uncertainty briefly. Keep report
+publication, accepted finish, observed execution, cleanup, and evidence completeness
+conceptually separate; none substitutes for another. Full lifecycle records remain
+in the linked native report/export.
 
-If reporting usage, separate confirmed model tokens, budget-charged tokens, and
-unconfirmed reservations. Zero confirmed tokens cannot establish zero consumption.
-Credential audit summaries may use documented bounded identifiers, backend, outcome,
-code, cache status, and timestamps with event citations; never include values,
-locators, headers, or raw backend responses. Do not reconstruct omitted private
-settings from current configuration.
+Usage and credential diagnostics are not standard security-report sections. If a
+specific retained value is necessary to explain a material limitation, distinguish
+confirmed usage from reservations and bytes from tokens, and do not infer provider
+capacity from local allowances. Otherwise leave these records to debugging. Never
+include credential values, locators, raw backend responses, or reconstruct omitted
+private settings from current configuration.

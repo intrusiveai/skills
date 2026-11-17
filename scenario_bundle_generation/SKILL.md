@@ -1,12 +1,17 @@
 ---
 name: scenario-bundle-generation
-description: Create or revise Operator Sandbox scenario bundles from user-directed objectives, scenarios, and public target capabilities. Structure records, bind capability references, package supporting artifacts, and validate offline. Use for campaign input authoring; this skill does not prescribe test objectives, scenario catalogs, or attack techniques, and does not run campaigns.
+description: Create or revise ScenarioBundle inputs for INTRUSIVE.AI Operator Sandbox and Attack Harness from user-directed objectives, scenarios, and public target capabilities. Bind references, package supporting artifacts, and validate offline. Use only for these INTRUSIVE.AI inputs or an explicit request to author them, not generic test plans, scenario writing, or other simulation formats. Prescribes no scenario catalog or attack techniques and does not run campaigns.
 ---
 
-# Scenario Bundle Generation
+# INTRUSIVE.AI Scenario Bundle Generation
 
 Produce an Operator-compatible bundle expressing the user's chosen objectives and
 scenarios, with any supporting artifacts and an honest validation result.
+
+Apply this skill when the request or established context identifies INTRUSIVE.AI
+Operator ScenarioBundle authoring, an existing `operator.dev/scenario-bundle/*`
+input, or Operator-exported capabilities for that purpose. Generic objectives,
+test cases, or a file named `capabilities.json` alone do not establish that scope.
 
 ## Content belongs to the user
 

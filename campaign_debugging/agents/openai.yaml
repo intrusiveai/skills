@@ -1,4 +1,4 @@
 interface:
   display_name: "INTRUSIVE.AI Campaign Debugging"
-  short_description: "Trace campaign failures and model reliability from evidence"
-  default_prompt: "Use $campaign-debugging to diagnose this campaign from its native Operator and Interceptor evidence, citing the initiating failure and distinguishing recovered errors from final outcomes."
+  short_description: "Diagnose INTRUSIVE.AI sandbox campaign evidence"
+  default_prompt: "Use $campaign-debugging to diagnose this INTRUSIVE.AI campaign from its native Operator Sandbox, Attack Harness, and Interceptor Sandbox evidence, citing the initiating failure and distinguishing recovered errors from final outcomes."

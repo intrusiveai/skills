@@ -1,12 +1,18 @@
 ---
 name: interceptor-sandbox-management
-description: Install, configure, and operate Interceptor Sandbox, including generation, remote embeddings, and managed PostgreSQL; assess target applications and create or revise Environment Blueprints; validate and build environments, including separately supplied Python/Node invocation and state adapters; manage sessions, snapshots, and target evidence. Use for Interceptor targets and their Operator integration. Scenario bundle authoring, Operator campaign execution, and results report generation have separate skills.
+description: Manage INTRUSIVE.AI Interceptor Sandbox installation, configuration, Environment Blueprints, wrapper builds, sessions, snapshots, and native target evidence, including model, embeddings, and managed PostgreSQL integration. Use only for requests or established context involving this INTRUSIVE.AI component or onboarding an application into it. Not for general container, database, proxy/interceptor, model-provider, or application management.
 ---
 
-# Interceptor Sandbox Management
+# INTRUSIVE.AI Interceptor Sandbox Management
 
 Deliver the requested Interceptor installation, application environment, or session
 operation, with evidence of what works and explicit remaining gaps.
+
+Apply this skill when the request or established context identifies INTRUSIVE.AI
+Interceptor Sandbox, its repository, or native Blueprint/session artifacts.
+Application sources alone, a generic sandbox, or a PostgreSQL/embeddings problem
+do not establish that scope. Operator campaign execution, scenario authoring,
+results reporting, and campaign evidence diagnosis have separate skills.
 
 ## Choose the relevant workflow
 

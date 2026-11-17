@@ -55,6 +55,12 @@ For objectives-only reports show zero scenarios, omit the empty table/filters, a
 provide objective results. Evidence can use `<details><summary>…</summary>` with
 `<pre>` text and a source link. Keep essential conclusions/limitations visible.
 
+Use the existing overview and evidence/limitations areas for a concise operational
+limitation and, when warranted, a `campaign-debugging` handoff. Keep security
+findings and application remediation prominent. Do not add a diagnostic dashboard
+or fill expandable sections with campaign logs; link the separate native records
+or debugging deliverable instead.
+
 ## Safe and accessible reading
 
 - Escape evidence, bundle descriptions, model text, and diagnostics as text. Never
@@ -85,5 +91,11 @@ hashes remain unchanged and report assets make no network requests.
 
 When changing this skill, use a temporary representative report with observed,
 inconclusive, and untested scenarios plus exploratory/rejected attempts; also check
-zero scenarios. Label synthetic fixtures; never call them live campaign results.
+zero scenarios. Include an initiating failure followed by forced exit, a token
+reservation shortfall, and later archive availability with unresolved cleanup.
+Check that the report summarizes only the impact on assessment and links the
+evidence, with a debugging handoff when failures materially impair the campaign.
+Also check a recovered error with no assessment impact: it should not produce a
+diagnostic section. A scenario-supported application failure must remain visible
+as security evidence. Label synthetic fixtures; never call them live campaign results.
 Report actual verification scope; unavailable browser/evidence checks are limitations.

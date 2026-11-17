@@ -1,6 +1,6 @@
 ---
 name: campaign-debugging
-description: Diagnose INTRUSIVE.AI campaigns from native Operator and Interceptor evidence. Trace preparation, model, tool, target, snapshot, finalization, and evidence failures; reconstruct Harness model conversations; report per-scenario errors, turns, and tokens. Use for campaign troubleshooting and reliability analysis, including successful campaigns with recovered errors.
+description: Diagnose INTRUSIVE.AI Operator Sandbox, Attack Harness, and Interceptor Sandbox campaigns from their native run, preparation, report/export, and session evidence. Trace failures and recovered errors, reconstruct Harness model conversations, and compare scenario turns/tokens. Use only when the request or established context identifies an INTRUSIVE.AI campaign; not for generic application debugging, LLM troubleshooting, log analysis, or unrelated campaign systems.
 ---
 
 # INTRUSIVE.AI Campaign Debugging
@@ -9,6 +9,18 @@ Explain what happened, where it failed, and what the retained evidence proves.
 Work from an Operator run/state directory or portable export and any associated
 Interceptor evidence. No external runner, custom application logger, source
 checkout, or particular test application is required.
+
+Establish the INTRUSIVE.AI connection from the request, prior conversation, or
+recognizable native artifacts. Generic logs, model conversations, errors, or a
+request to debug a campaign alone are insufficient. Explicit INTRUSIVE.AI
+preparation failures remain in scope even when no campaign journal was created.
+
+This skill owns operational root cause analysis, model/tool failure traces,
+conversation reconstruction, token/context statistics, and cleanup reconciliation.
+The results-reporting skill owns application security findings, scenario evidence
+assessment, remediation, and developer handoff. A reporting referral is a request
+for a separate diagnosis only when the user asks to follow it; do not expand every
+security report into troubleshooting.
 
 ## Establish the evidence
 
@@ -73,6 +85,10 @@ interaction and observed boundary separately from the suspected responsible code
 Include exact file references and event/operation IDs supporting the diagnosis.
 Label recovered errors, shutdown consequences, independent failures and missing
 diagnostics separately. State what succeeded when that narrows the failure.
+For a security-report handoff, also provide a short assessment-impact summary:
+affected scenarios, unavailable/unreliable evidence, and what remains unassessed.
+Keep the detailed diagnostic analysis in its own deliverable for the report to
+link, rather than inserting it into the security findings or application remediation.
 When recommendations are requested, tie each to demonstrated behavior; do not
 invent one-off error strings or weaken product checks to make a campaign pass.
 

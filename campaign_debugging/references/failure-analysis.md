@@ -37,6 +37,41 @@ source. Compare nested model/attempt/turn/campaign limits only when retained.
 Elapsed time alone does not establish which deadline expired. Do not recommend
 increasing every timeout or token limit before locating the failing boundary.
 
+For a retained budget diagnostic, preserve `kind`, `total_allowance`, `consumed`,
+`remaining`, and `next_request_reservation`. Positive remaining tokens may still
+be insufficient for another reservation. Keep request-size bytes, confirmed model
+usage, charged reservations, and remaining allowances distinct. Detailed tables
+belong in this diagnosis, not the application security report.
+
+Match `attempts[].target_failure` to its workflow diagnostic and retained
+operation/attempt/turn/native-step evidence. Preserve status/code, safe detail,
+omission reason, and response digest without fabricating missing private bytes.
+`target_invocation`, `result_delivery`, and `host_finalized` are independent: a
+completed invocation can coexist with failed result delivery. Only explicit native
+deadline evidence establishes `target_turn_timeout`.
+
+Credential failures may include typed step/category/backend code/HTTP status and
+`omitted_fields`. Current projection includes `onepassword`; use the matching
+[credential projection](https://github.com/intrusiveai/operator_sandbox/blob/main/internal/reporting/credential.go)
+rather than an older documentation allowlist. Never reproduce values or locators.
+
+## Reconcile cleanup and later evidence
+
+Read `cleanup_resolutions` per session: currently verified archive availability,
+collection history, and optional native stop evidence. Preserve the original
+termination/recovery fields alongside later facts. A later successful collection
+does not rewrite historical cleanup outcomes or establish injection deletion.
+
+A confirmed native stop requires a session-bound, hash-verified `session_stopped`
+control event from `sandboxd` with `sandbox_control` provenance. Cite its sequence,
+timestamp, digest, and archive. A complete archive alone confirms no stop or
+ownership closure. Keep earlier collection status/code and omission details;
+older missing rejection details cannot be inferred from a later success.
+
+Use the [native report contract](https://github.com/intrusiveai/operator_sandbox/blob/main/docs/REPORTING.md#target-failures-and-cleanup-reconciliation)
+for source-field interpretation. Preserve immutable generations; investigating
+these records does not authorize fresh collection or cleanup actions.
+
 ## Interceptor-specific checks
 
 - Read `logs/application.stderr.log` and `logs/application.stdout.log` when supplied.

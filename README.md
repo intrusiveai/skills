@@ -1,8 +1,14 @@
 # INTRUSIVE.AI Sandbox Skills
 
-Skills for AI coding assistants that help prepare application test environments,
-configure and run attack simulation campaigns, author scenario bundles, debug
-campaign execution, and produce evidence-based security review reports.
+Skills for AI coding assistants working with INTRUSIVE.AI Operator Sandbox,
+Attack Harness, and Interceptor Sandbox. They help prepare application test
+environments, configure and run attack simulation campaigns, author scenario
+bundles, debug campaign execution, and produce evidence-based security review reports.
+
+Each skill requires a connection to these components through the request,
+conversation context, or native artifacts. Generic management, debugging, test
+planning, and reporting requests are outside their scope. Existing invocation names
+are retained; the descriptions and scope guidance identify the INTRUSIVE.AI boundary.
 
 These are instructions and supporting resources for your assistant. Installing
 them does not install the sandbox products, configure credentials, or run a campaign.
@@ -13,19 +19,25 @@ them does not install the sandbox products, configure credentials, or run a camp
 | --- | --- | --- |
 | [Interceptor Sandbox management](interceptor_sandbox_management/SKILL.md) | Install and configure Interceptor, create application environment Blueprints, and manage sessions, snapshots, and evidence. | “Prepare an Interceptor Blueprint for this application and validate it.” |
 | [Operator Sandbox management](operator_sandbox_management/SKILL.md) | Install and configure Operator and compatible Attack Harness; prepare target profiles and inputs; execute, inspect, and terminate campaigns. | “Configure Operator for this target and prepare a campaign using this bundle.” |
-| [Scenario bundle generation](scenario_bundle_generation/SKILL.md) | Turn user-selected objectives and scenarios into a functional bundle with capability references and supporting artifacts. It prescribes no scenario catalog or attack techniques. | “Create a bundle from these objectives and the exported target capabilities.” |
-| [Attack simulation results reporting](attack_simulation_results_reporting/SKILL.md) | Produce portable HTML security review reports covering configuration, application context, bundle coverage, scenario results, evidence, and justified recommendations. | “Generate an HTML security review from this retained campaign export.” |
-| [INTRUSIVE.AI Campaign Debugging](campaign_debugging/SKILL.md) | Trace failures and recovered errors using native Operator and Interceptor evidence; reconstruct model conversations and compare per-scenario turns and tokens. | “Diagnose this campaign export and identify which component failed, with supporting evidence.” |
+| [Scenario bundle generation](scenario_bundle_generation/SKILL.md) | Turn user-selected objectives and scenarios into an Operator ScenarioBundle with capability references and supporting artifacts. It prescribes no scenario catalog or attack techniques. | “Create an INTRUSIVE.AI Operator bundle from these objectives and its exported target capabilities.” |
+| [Attack simulation results reporting](attack_simulation_results_reporting/SKILL.md) | Produce portable HTML reviews of retained Operator campaigns covering configuration, application context, bundle coverage, scenario results, evidence, and justified recommendations. | “Generate an HTML security review from this retained INTRUSIVE.AI Operator campaign export.” |
+| [INTRUSIVE.AI Campaign Debugging](campaign_debugging/SKILL.md) | Trace failures and recovered errors using native Operator and Interceptor evidence; reconstruct model conversations and compare per-scenario turns and tokens. | “Diagnose this INTRUSIVE.AI campaign export and identify which component failed, with supporting evidence.” |
 
 Each skill has a short `SKILL.md` entry point and focused references loaded when
 needed. The reporting skill also includes HTML, CSS, and JavaScript assets matching
 the INTRUSIVE.AI website theme.
 
+Results reporting serves security analysis and application-developer handoff.
+It summarizes operational failures only where they limit the assessment and
+directs substantial failure investigations to Campaign Debugging. Debugging
+produces a separate operational diagnosis; its traces and repair advice do not
+become application security findings.
+
 A typical workflow is to prepare an Interceptor environment, author a bundle from
 its exported capabilities, execute it through Operator and Attack Harness, and
 report on retained evidence. You can start with an existing environment, bundle,
 or completed campaign; the skills work independently. Operator also supports
-configured HTTPS targets without an Interceptor environment.
+configured HTTP/HTTPS targets without an Interceptor environment.
 
 ## Install for Codex CLI or Claude Code
 
@@ -105,15 +117,15 @@ skills or select the skill explicitly. In Codex, name the skill in your request,
 for example:
 
 ```text
-Use the scenario-bundle-generation skill to create a bundle from the testing goals
-in ./assessment-goals.md, using ./environment/capabilities.json to validate
-capability references.
+Use the scenario-bundle-generation skill to create an INTRUSIVE.AI Operator bundle
+from the testing goals in ./assessment-goals.md, using Operator's export at
+./environment/capabilities.json to validate capability references.
 ```
 
 In Claude Code, use the installed slash command, for example:
 
 ```text
-/attack-simulation-results-reporting Generate an HTML security review from ./exports/campaign.
+/attack-simulation-results-reporting Generate an HTML security review of the INTRUSIVE.AI Operator campaign exported to ./exports/campaign.
 ```
 
 Claude Code supports explicit `/skill-name` invocation and automatic selection when

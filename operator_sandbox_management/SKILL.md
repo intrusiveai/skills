@@ -1,12 +1,18 @@
 ---
 name: operator-sandbox-management
-description: Install and configure Operator Sandbox and its compatible Attack Harness; prepare target profiles, capability exports, and campaign inputs; start, inspect, and terminate campaigns; retain evidence for reporting. Use for Interceptor or configured HTTP/HTTPS targets. Interceptor environment management, scenario bundle authoring, and results report generation have separate skills.
+description: Manage INTRUSIVE.AI Operator Sandbox and its compatible Attack Harness installation, configuration, target profiles, capability exports, and campaign lifecycle. Use only for requests or established context involving these INTRUSIVE.AI components, including their Interceptor or direct HTTP/HTTPS targets. Not for general infrastructure management, Kubernetes operators, unrelated HTTP testing, or other campaign systems.
 ---
 
-# Operator Sandbox Management
+# INTRUSIVE.AI Operator Sandbox Management
 
 Deliver the requested Operator installation, validated campaign inputs, or campaign
 operation, with evidence of the resulting state and explicit remaining gaps.
+
+Apply this skill when the request or established context identifies INTRUSIVE.AI
+Operator Sandbox, Attack Harness, their repository, or native configuration/run
+artifacts. Generic requests to manage a sandbox, configure a model, or test an HTTP
+application do not establish that scope. Interceptor environment management,
+scenario authoring, reporting, and campaign evidence diagnosis have separate skills.
 
 ## Choose the relevant workflow
 
