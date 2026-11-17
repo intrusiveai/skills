@@ -9,6 +9,7 @@ skills=(
   operator-sandbox-management
   scenario-bundle-generation
   attack-simulation-results-reporting
+  campaign-debugging
 )
 selected=()
 roots=()
@@ -24,7 +25,7 @@ Usage: ./install.sh --target codex|claude|both [options]
        ./install.sh --dest DIRECTORY [options]
        ./install.sh --list
 
-Install all four skills by default. Existing skill folders are never overwritten.
+Install all skills by default. Existing skill folders are never overwritten.
 
   --target NAME       Install for codex, claude, or both (user scope by default)
   --project-dir DIR   Install under an existing project instead of your home

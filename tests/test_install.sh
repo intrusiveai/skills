@@ -7,7 +7,7 @@ test_root=$(mktemp -d "${TMPDIR:-/tmp}/sandbox-skills-install.XXXXXX")
 trap 'rm -rf -- "$test_root"' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
-skills=(interceptor-sandbox-management operator-sandbox-management scenario-bundle-generation attack-simulation-results-reporting)
+skills=(interceptor-sandbox-management operator-sandbox-management scenario-bundle-generation attack-simulation-results-reporting campaign-debugging)
 checks=0
 
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
@@ -46,7 +46,7 @@ pass 'skill selection, duplicate selection, and unrelated skills'
 mkdir "$test_root/preview"
 "$installer" --target both --project-dir "$test_root/preview" --dry-run > "$test_root/preview.log"
 [[ -z $(find "$test_root/preview" -mindepth 1 -print) ]]
-[[ $(grep -c 'Would copy' "$test_root/preview.log") == 8 ]]
+[[ $(grep -c 'Would copy' "$test_root/preview.log") == $((2 * ${#skills[@]})) ]]
 pass 'dry run previews all destinations without creating files'
 
 custom="$test_root/custom skills \$(literal)"

@@ -1,8 +1,8 @@
 # INTRUSIVE.AI Sandbox Skills
 
 Skills for AI coding assistants that help prepare application test environments,
-configure and run attack simulation campaigns, author scenario bundles, and produce
-evidence-based security review reports.
+configure and run attack simulation campaigns, author scenario bundles, debug
+campaign execution, and produce evidence-based security review reports.
 
 These are instructions and supporting resources for your assistant. Installing
 them does not install the sandbox products, configure credentials, or run a campaign.
@@ -15,6 +15,7 @@ them does not install the sandbox products, configure credentials, or run a camp
 | [Operator Sandbox management](operator_sandbox_management/SKILL.md) | Install and configure Operator and compatible Attack Harness; prepare target profiles and inputs; execute, inspect, and terminate campaigns. | “Configure Operator for this target and prepare a campaign using this bundle.” |
 | [Scenario bundle generation](scenario_bundle_generation/SKILL.md) | Turn user-selected objectives and scenarios into a functional bundle with capability references and supporting artifacts. It prescribes no scenario catalog or attack techniques. | “Create a bundle from these objectives and the exported target capabilities.” |
 | [Attack simulation results reporting](attack_simulation_results_reporting/SKILL.md) | Produce portable HTML security review reports covering configuration, application context, bundle coverage, scenario results, evidence, and justified recommendations. | “Generate an HTML security review from this retained campaign export.” |
+| [INTRUSIVE.AI Campaign Debugging](campaign_debugging/SKILL.md) | Trace failures and recovered errors using native Operator and Interceptor evidence; reconstruct model conversations and compare per-scenario turns and tokens. | “Diagnose this campaign export and identify which component failed, with supporting evidence.” |
 
 Each skill has a short `SKILL.md` entry point and focused references loaded when
 needed. The reporting skill also includes HTML, CSS, and JavaScript assets matching
@@ -76,7 +77,7 @@ project-installed skills if you want to share them with collaborators.
 
 ### Select skills and preview changes
 
-All four skills are installed by default. Use installed names with hyphens to
+All five skills are installed by default. Use installed names with hyphens to
 select a subset; repeat `--skill` to select more than one:
 
 ```sh
